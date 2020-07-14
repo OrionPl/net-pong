@@ -1,0 +1,1 @@
+g++.exe src/main.cpp src/Window.cpp src/Ball.cpp src/Paddles.cpp src/Score.cpp -I"E:\include\SDL2\include" -L"E:\include\SDL2\lib\x64" -w -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -o bin/main.exe && echo "-" && ./bin/main.exe
