@@ -72,7 +72,7 @@ void Networking::AcceptIncomingConnections()
 		
 		if (newSocket == INVALID_SOCKET)
 		{
-			std::cout << "SHIT! Invalid socket error" << std::endl;
+			std::cout << "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
 		else
 		{

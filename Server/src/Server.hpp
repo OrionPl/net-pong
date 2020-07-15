@@ -29,5 +29,9 @@ private:
 
     int p1Score = 0;
     int p2Score = 0;
+	float ballXPos = 0;
+	float ballYPos = 0;
+	float ballXVel = 0;
+	float ballYVel = 0;
 };
 #endif
