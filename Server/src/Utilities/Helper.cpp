@@ -61,4 +61,5 @@ std::string Helper::GetStringUntil(std::string str, std::string until)
 	{
 		return str;
 	}
+	return "error | Helper.cpp";
 }
