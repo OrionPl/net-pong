@@ -6,6 +6,8 @@
 
 #include "Ball.hpp"
 
+#include "Networking.hpp"
+
 struct Paddle {
     float x;
     float y;
@@ -14,7 +16,7 @@ struct Paddle {
 
 class Paddles {
 public:
-    Paddles(int window_length);
+    Paddles(int window_length, Networking* net);
     void Draw(SDL_Renderer* renderer);
     void Update(double dt, const Uint8* keys_down, Ball* ball);
     int GetScore1();
@@ -25,4 +27,6 @@ private:
     Paddle m_paddle2;
     int m_yv;
     int m_window_length;
+
+    Networking* m_net;
 };

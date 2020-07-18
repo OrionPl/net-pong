@@ -1,7 +1,8 @@
 #include "Paddles.hpp"
 
-Paddles::Paddles(int window_length) {
+Paddles::Paddles(int window_length, Networking* net) {
     m_window_length = window_length;
+    m_net = net;
 
     m_paddle1.score = m_paddle2.score = 0;
     m_rect.w = 30;
@@ -25,8 +26,10 @@ void Paddles::Draw(SDL_Renderer* renderer) {
 void Paddles::Update(double dt, const Uint8* keys_down, Ball* ball) {
     if (keys_down[SDL_SCANCODE_UP]) {
         m_paddle2.y -= m_yv * dt;
+        m_net->Send("^");
     } else if (keys_down[SDL_SCANCODE_DOWN]) {
         m_paddle2.y += m_yv * dt;
+        m_net->Send("v");
     }
 
     if (keys_down[SDL_SCANCODE_W]) {
