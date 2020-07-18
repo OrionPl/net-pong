@@ -2,69 +2,84 @@
 
 #include <windows.h>
 
-#include "Networking.h"
+#include "Networking.hpp"
 
-Networking::Networking(std::string IP, int Port, GameManager* Gm)
+Networking::Networking(std::string IP, int Port, std::string Nick)
 {
 	ip = IP;
 	port = Port;
-	gm = Gm;
+    nick = Nick;
 
 	try
 	{
-		socket.connect(ip, port);
-
-		Send("userInfo " + "orion?");
+		InitializeWinsock();
+		Connect();
+		Send("userInfo " + nick);
 		std::thread receiveThread(&Networking::Receive, this);
 		receiveThread.detach();
 	}
 	catch (std::string error)
 	{
-		std::cout << "Error when connecting to server: " << error << std::endl;
+		std::cout << "Error when connecting to server: " << error << std::endl;	
+	}
+}
+
+void Networking::InitializeWinsock()
+{
+	WSADATA wsData;
+	WORD ver = MAKEWORD(2, 2);
+	int wsok = WSAStartup(ver, &wsData);
+
+	if (wsok != 0)
+	{
+		std::cerr << "SHIT! Can't Initialize winsock!" << std::endl;
+	}
+
+	if((Socket = socket(AF_INET , SOCK_STREAM , 0 )) == INVALID_SOCKET)
+	{
+		printf("Could not create socket : %d" , WSAGetLastError());
+	}
+}
+
+void Networking::Connect()
+{
+	sockaddr_in server;
+
+	server.sin_addr.s_addr = inet_addr(ip.c_str());
+	server.sin_family = AF_INET;
+	server.sin_port = htons(port);
+
+	if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0)
+	{
+		std::cout << "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
 	}
 }
 
 void Networking::Send(std::string message)
 {
-	socket.send(message.c_str(), message.size() + 1);
-}
+	bool res = send(Socket, message.c_str(), message.size() + 1, 0);
 
-void Networking::RequestFile(std::string filename)
-{
-	std::cout << "Requesting file " << filename << std::endl;;
-	Send("getfile " + filename);
-
-	while (!fileReceived)
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(5));
-	}
-
-	std::cout << "File successfully received" << std::endl;
-	fileReceived = false;
+	if (res == SOCKET_ERROR)
+		Disconnect();
 }
 
 void Networking::Receive()
 {
-	char buffer[4096];
-
 	while (true)
 	{
-		ZeroMemory(buffer, 4096);
+		char buffer[4096];
 
-		std::size_t bytesReceived = 0;
-		socket.receive(buffer, sizeof(buffer), bytesReceived);
+		int bytesReceived = recv(Socket, buffer, 4096, 0);
 
 		if (bytesReceived > 0)
 		{
 			std::string received = std::string(buffer, 0, bytesReceived);
-			std::cout << "Rec: " << received << std::endl;
 			HandleQuery(received);
 		}
 		else
 		{
-			std::cout << "SHIT! Disconnected from server!" << std::endl;
-			socket.disconnect();
-			return;
+			Disconnect();
+			break;
 		}
 	}
 }
@@ -98,4 +113,10 @@ void Networking::HandleQuery(std::string msg)
 	{
 		std::cout << "SERVER> " << msg << std::endl;
 	}
+}
+
+void Networking::Disconnect()
+{
+	closesocket(Socket);
+	WSACleanup();
 }

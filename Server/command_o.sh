@@ -1,0 +1,1 @@
+g++ main.cpp Networking.cpp User.cpp Server.cpp Utilities/Helper.cpp -lws2_32

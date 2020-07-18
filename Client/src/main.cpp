@@ -3,20 +3,22 @@
 #include <iostream>
 #include <vector>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+// #include <SDL2/SDL.h>
+// #include <SDL2/SDL_ttf.h>
 
-#include "Clock.cpp"
+// #include "Clock.cpp"
 
-#include "Window.hpp"
-#include "Ball.hpp"
-#include "Paddles.hpp"
-#include "Score.hpp"
+// #include "Window.hpp"
+// #include "Ball.hpp"
+// #include "Paddles.hpp"
+// #include "Score.hpp"
+#include "Networking.hpp"
 
 
 int main(int argc, char* argv[]) {
-
-    net = new Networking("localhost", 66666);
+    Networking* net = new Networking("127.0.0.1", 66666, "orion1");
+    net->Send("msg yeet");
+    system("pause");
 
     // TTF_Init();
 
