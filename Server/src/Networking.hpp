@@ -12,8 +12,10 @@
 class Networking {
 public:
     Networking(int port);
+    ~Networking();
 
     Server* GetServer() { return server; };
+    SOCKET* GetSocket() { return &listenSock; };
 
 private:
     SOCKET listenSock;

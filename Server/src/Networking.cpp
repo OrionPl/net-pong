@@ -7,6 +7,12 @@ Networking::Networking(int port)
 	BindSocketToPort(port);
 	StartListeningThread();
 
+	// closesocket(listenSock);
+	// WSACleanup();
+}
+
+Networking::~Networking()
+{
 	closesocket(listenSock);
 	WSACleanup();
 }
