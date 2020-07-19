@@ -25,6 +25,7 @@ public:
     void TakeInput(int player, std::string input);
     bool GameFull();
 private:
+    int window_length;
     Clock clock;
 
     Ball ball;
