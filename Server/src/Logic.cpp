@@ -10,6 +10,7 @@ void Logic::Update() {
 }
 
 void Logic::TakeInput(int player, std::string input) {
+    double dt = clock.elapsed;
     if (player == 1) {
         if (input == "v") {
             p1.x += paddle_vy * dt;
@@ -26,6 +27,6 @@ void Logic::TakeInput(int player, std::string input) {
 }
 
 // checks if the x values have been set, i.e. whether a player has connected
-bool GameFull() {
+bool Logic::GameFull() {
     return p1.x == -1 || p2.x == -1;
 }

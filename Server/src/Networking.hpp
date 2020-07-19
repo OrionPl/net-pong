@@ -19,9 +19,12 @@ private:
     SOCKET listenSock;
     Server* server;
 
+    std::thread main_network_thread;
+
     void InitializeWinsock();
     void CreateServerSocket();
     void BindSocketToPort(int port);
+    void StartListeningThread();
     void StartListening();
     void AcceptIncomingConnections();
 };

@@ -5,7 +5,7 @@ Networking::Networking(int port)
     InitializeWinsock();
 	CreateServerSocket();
 	BindSocketToPort(port);
-	StartListening();
+	StartListeningThread();
 
 	closesocket(listenSock);
 	WSACleanup();
@@ -48,6 +48,10 @@ void Networking::BindSocketToPort(int port)
 	bind(listenSock, (sockaddr*)& hint, sizeof(hint));
 }
 
+void Networking::StartListeningThread() {
+	main_network_thread = std::thread(&Networking::StartListening, this);
+}
+
 void Networking::StartListening()
 {
 	std::cout << "Starting listening" << std::endl;
@@ -74,7 +78,7 @@ void Networking::AcceptIncomingConnections()
 		{
 			std::cout << "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
-		else 
+		else
 		{
 			std::thread connectionHandler(&Server::OnConnect, server, newSocket, &client);
 			connectionHandler.detach();

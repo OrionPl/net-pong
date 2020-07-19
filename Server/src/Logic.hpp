@@ -8,7 +8,7 @@ struct Player {
     int x;
     int y;
     int score;
-}
+};
 
 struct Ball {
     int x;
@@ -16,7 +16,7 @@ struct Ball {
     int xv;
     int yv;
     int l;
-}
+};
 
 class Logic {
 public:
