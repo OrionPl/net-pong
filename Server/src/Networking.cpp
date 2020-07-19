@@ -67,14 +67,14 @@ void Networking::AcceptIncomingConnections()
 	{
 		sockaddr_in client;
 		int clientSize = sizeof(client);
-		
+
 		SOCKET newSocket = accept(listenSock, (sockaddr*)& client, &clientSize);
-		
+
 		if (newSocket == INVALID_SOCKET)
 		{
 			std::cout << "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
-		else
+		else 
 		{
 			std::thread connectionHandler(&Server::OnConnect, server, newSocket, &client);
 			connectionHandler.detach();
