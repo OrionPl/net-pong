@@ -6,11 +6,11 @@ User::User(SOCKET Socket, std::string IP, Server* _server)
 	socket = Socket;
 	ip = IP;
 	server = _server;
+	server->GetLogic()->NewPlayer();
 
 	std::thread receiveThread(&User::Receive, this);
 	receiveThread.detach();
 
-	server->GetLogic()->NewPlayer();
 }
 
 void User::Receive()

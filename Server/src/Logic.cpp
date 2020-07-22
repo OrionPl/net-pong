@@ -8,9 +8,7 @@ Logic::Logic() {
 }
 
 void Logic::NewPlayer() {
-    if (p1.x == -1) {
-        p1.x = p1.y = 10;
-    }
+    p1.x = p1.y = 10;
 }
 
 void Logic::Update() {
@@ -29,7 +27,8 @@ void Logic::Update() {
 
 
 
-    network_msg = "$" + std::to_string(0) + "," + std::to_string(0);
+    network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y);
+    std:: cout << network_msg << std::endl;
 }
 
 void Logic::TakeInput(int player, std::string input) {
