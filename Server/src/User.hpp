@@ -36,9 +36,5 @@ private:
 	void SendFile(std::string dir, std::string filename);
 
 	bool userInfoDone = false;
-
-
-	//GAMESERVER
-	float y_pos;
 };
 #endif

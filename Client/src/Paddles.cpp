@@ -1,10 +1,8 @@
 #include "Paddles.hpp"
 
-Paddles::Paddles(int window_length, Networking* net) {
+Paddles::Paddles(int window_length) {
     m_window_length = window_length;
-    m_net = net;
 
-    m_paddle1.score = m_paddle2.score = 0;
     m_rect.w = 30;
     m_rect.h = 50;
     m_yv = 500;
@@ -23,30 +21,11 @@ void Paddles::Draw(SDL_Renderer* renderer) {
     SDL_RenderDrawRect(renderer, &m_rect);
 }
 
-void Paddles::Update(double dt, const Uint8* keys_down, Ball* ball) {
-    if (keys_down[SDL_SCANCODE_UP]) {
-        m_paddle2.y -= m_yv * dt;
-        m_net->Send("^");
-    } else if (keys_down[SDL_SCANCODE_DOWN]) {
-        m_paddle2.y += m_yv * dt;
-        m_net->Send("v");
-    }
+void Paddles::SetPaddle(int index, float x, float y) {
+    index += 0;
 
-    if (keys_down[SDL_SCANCODE_W]) {
-        m_paddle1.y -= m_yv * dt;
-    } else if (keys_down[SDL_SCANCODE_S]) {
-        m_paddle1.y += m_yv * dt;
-    }
+    SDL_Log(std::to_string(x).c_str());
 
-    if (m_paddle1.y < 0)
-        m_paddle1.y = 0;
-    if (m_paddle2.y < 0)
-        m_paddle2.y = 0;
-    if (m_paddle1.y + m_rect.h > m_window_length)
-        m_paddle1.y = m_window_length - m_rect.h;
-    if (m_paddle2.y + m_rect.h > m_window_length)
-        m_paddle2.y = m_window_length - m_rect.h;
-
-    ball->ReactToPaddle(m_paddle1.x, m_paddle1.y, m_rect.w, m_rect.h);
-    ball->ReactToPaddle(m_paddle2.x, m_paddle2.y, m_rect.w, m_rect.h);
+    m_paddle2.x = x;
+    m_paddle2.y = y;
 }

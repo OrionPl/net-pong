@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 #include "Clock.hpp"
 
@@ -8,6 +9,7 @@ struct Player {
     int x;
     int y;
     int score;
+    std::string name;
 };
 
 struct Ball {
@@ -21,8 +23,10 @@ struct Ball {
 class Logic {
 public:
     Logic();
+    void NewPlayer();
     void Update();
     void TakeInput(int player, std::string input);
+    std::string GetNetworkMsg();
     bool GameFull();
 private:
     int window_length;
@@ -34,4 +38,6 @@ private:
     int paddle_vy;
     int paddle_width;
     int paddle_height;
+
+    std::string network_msg;
 };

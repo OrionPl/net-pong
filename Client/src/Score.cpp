@@ -2,7 +2,9 @@
 
 Score::Score(SDL_Renderer* renderer) {
 
-    m_font = TTF_OpenFont("font.ttf", 15);
+    m_font = TTF_OpenFont("assets/font.ttf", 15);
+    if (!m_font)
+        SDL_Log(TTF_GetError());
 
     m_score_1 = 0;
     m_score_2 = 0;

@@ -7,12 +7,13 @@
 
 int main(int argc, char*[])
 {
-    Networking net(66666);
+    Logic logic;
+    Networking net(66666, &logic);
     Server* serv = net.GetServer();
 
-    Logic logic;
     while (true) {
         logic.Update();
+        serv->SendToAllUsers(logic.GetNetworkMsg());
     }
 
     return 0;

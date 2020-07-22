@@ -1,0 +1,11 @@
+Data sent to Client for the logic of the game:
+
+$x1,y1;x2,y2;ballx,bally
+
+
+
+// TO DO LIST
+
+// keyboard input must be in main
+// Networking takes paddles class and ball class
+// stop passing net into paddles

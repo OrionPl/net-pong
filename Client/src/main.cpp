@@ -17,15 +17,14 @@
 
 
 int main(int argc, char* argv[]) {
-    Networking* net = new Networking("127.0.0.1", 66666, "orion1");
-    net->Send("msg yeet");
-
     TTF_Init();
 
     Window window;
     Ball ball(window.GetWindowLength());
-    Paddles paddles(window.GetWindowLength(), net);
+    Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
+
+    Networking net("127.0.0.1", 66666, "orion1", &paddles);
 
     Clock clock;
     SDL_Event event;
@@ -47,8 +46,11 @@ int main(int argc, char* argv[]) {
         }
         clock.tick();
 
-        ball.Update(clock.dt, &score);
-        paddles.Update(clock.dt, keys_down, &ball);
+        if (keys_down[SDL_SCANCODE_UP]) {
+            net.Send("^");
+        } else if (keys_down[SDL_SCANCODE_DOWN]) {
+            net.Send("v");
+        }
 
 
         SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);

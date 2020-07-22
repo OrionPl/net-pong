@@ -4,24 +4,31 @@
 
 #include "Networking.hpp"
 
-Networking::Networking(std::string IP, int Port, std::string Nick)
+Networking::Networking(std::string IP, int Port, std::string Nick, Paddles* _paddles)
 {
 	ip = IP;
 	port = Port;
     nick = Nick;
+	paddles = _paddles;
 
 	try
 	{
 		InitializeWinsock();
 		Connect();
 		Send("userInfo " + nick);
-		std::thread receiveThread(&Networking::Receive, this);
-		receiveThread.detach();
+		receive_thread = std::thread(&Networking::Receive, this);
+		receive_thread.detach();
 	}
 	catch (std::string error)
 	{
-		std::cout << "Error when connecting to server: " << error << std::endl;	
+		std::cout << "Error when connecting to server: " << error << std::endl;
 	}
+}
+
+Networking::~Networking()
+{
+	closesocket(Socket);
+	WSACleanup();
 }
 
 void Networking::InitializeWinsock()
@@ -87,6 +94,24 @@ void Networking::Receive()
 void Networking::HandleQuery(std::string msg)
 {
 	Helper help;
+
+	if (msg[0] == '$') { // game logic prefix is $
+		msg.erase(0, 1); // remove the $ prefix when viewing data
+
+
+		std::vector<int> msg_data;
+
+		std::string delimiter = ",";
+		std::istringstream ss(msg);
+		std::string token;
+		std::string::iterator it;
+		while(std::getline(ss, token, *(it = delimiter.begin()))) {
+			while(*(++it)) ss.get();
+			msg_data.push_back(std::stoi(token));
+		}
+		paddles->SetPaddle(1, msg_data[0], msg_data[1]);
+
+	}
 
 	if (help.StringStartsWith(msg, "msgfrom"))
 	{

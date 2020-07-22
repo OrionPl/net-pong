@@ -10,11 +10,12 @@ class User;
 #include <string>
 
 #include "User.hpp"
+#include "Logic.hpp"
 
 class Server
 {
 public:
-	Server(SOCKET* serverSock);
+	Server(SOCKET* serverSock, Logic* _logic);
 	void OnConnect(SOCKET clientSock, sockaddr_in* client);
 	void OnDisconnect(User* user);
 	void AddUser(User* user);
@@ -23,15 +24,12 @@ public:
 
 	std::vector<User*>* GetUsers() { return &users; };
 
+	Logic* GetLogic();
+
 private:
 	SOCKET* serverSocket;
+	std::thread send_to_users_thread;
 	std::vector<User*> users;
-
-    int p1Score = 0;
-    int p2Score = 0;
-	float ballXPos = 0;
-	float ballYPos = 0;
-	float ballXVel = 0;
-	float ballYVel = 0;
+	Logic* logic;
 };
 #endif

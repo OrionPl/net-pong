@@ -17,6 +17,7 @@ int Window::GetWindowLength() {
 }
 
 void Window::Shutdown() {
+    SDL_Log("Shutting down window");
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     SDL_Quit();

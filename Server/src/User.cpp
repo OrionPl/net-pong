@@ -9,6 +9,8 @@ User::User(SOCKET Socket, std::string IP, Server* _server)
 
 	std::thread receiveThread(&User::Receive, this);
 	receiveThread.detach();
+
+	server->GetLogic()->NewPlayer();
 }
 
 void User::Receive()
@@ -43,7 +45,8 @@ void User::HandleQuery(std::string* query)
 	}  // ADD ELSEIF IN CASE OF HANDLING NEW QUERIES
 	else
 	{
-		std::cout << name << "> " << *query << std::endl;
+		server->GetLogic()->TakeInput(1, *query);
+		// std::cout << name << ">$$$$$$$$$$$$$$$$ " << *query << std::endl;
 		Send("Stop this shit");
 	}
 }

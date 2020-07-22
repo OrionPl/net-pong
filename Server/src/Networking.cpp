@@ -1,9 +1,9 @@
 #include "Networking.hpp"
 
-Networking::Networking(int port)
+Networking::Networking(int port, Logic* _logic)
 {
     InitializeWinsock();
-	CreateServerSocket();
+	CreateServerSocket(_logic);
 	BindSocketToPort(port);
 	StartListeningThread();
 
@@ -30,7 +30,7 @@ void Networking::InitializeWinsock()
 	}
 }
 
-void Networking::CreateServerSocket()
+void Networking::CreateServerSocket(Logic* _logic)
 {
 	listenSock = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -39,7 +39,7 @@ void Networking::CreateServerSocket()
 		std::cerr << "SHIT! Can't create a socket!" << std::endl;
 	}
 
-	server = new Server(&listenSock);
+	server = new Server(&listenSock, _logic);
 }
 
 void Networking::BindSocketToPort(int port)

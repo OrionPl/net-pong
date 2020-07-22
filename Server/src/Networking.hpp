@@ -6,12 +6,13 @@
 #include <WS2tcpip.h>
 
 #include "Server.hpp"
+#include "Logic.hpp"
 
 #pragma comment (lib, "ws2_32.lib")
 
 class Networking {
 public:
-    Networking(int port);
+    Networking(int port, Logic* logic);
     ~Networking();
 
     Server* GetServer() { return server; };
@@ -24,7 +25,7 @@ private:
     std::thread main_network_thread;
 
     void InitializeWinsock();
-    void CreateServerSocket();
+    void CreateServerSocket(Logic* _logic);
     void BindSocketToPort(int port);
     void StartListeningThread();
     void StartListening();

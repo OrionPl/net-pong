@@ -1,8 +1,10 @@
 #include "Server.hpp"
 
-Server::Server(SOCKET* serverSock)
+Server::Server(SOCKET* serverSock, Logic* _logic)
 {
 	serverSocket = serverSock;
+	logic = _logic;
+	send_to_users_thread = std::thread();
 }
 
 void Server::OnConnect(SOCKET clientSock, sockaddr_in* client)
@@ -74,4 +76,8 @@ void Server::SendToAllUsersBesidesThis(std::string message, User* user)
 		if (users[i]->GetSocket() != user->GetSocket())
 			users[i]->Send(message);
 	}
+}
+
+Logic* Server::GetLogic() {
+	return logic;
 }
