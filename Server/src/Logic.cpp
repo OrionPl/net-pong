@@ -3,9 +3,12 @@
 Logic::Logic() {
     window_length = 500;
 
+    ball.x = ball.y = ball.l = ball.xv = ball.yv = 100;
+
+    paddle_width = 30;
+    paddle_height = 50;
     paddle_vy = 1000;
     p1.x = p1.y = p2.x = p2.y = -500;
-    ball.x = ball.y = ball.l = ball.xv = ball.yv = 100;
 }
 
 void Logic::NewPlayer() {
@@ -15,6 +18,13 @@ void Logic::NewPlayer() {
 void Logic::Update() {
     clock.tick();
 
+    UpdateBall();
+    UpdatePaddles();
+
+    network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y);
+}
+
+void Logic::UpdateBall() {
     ball.x += ball.xv * clock.dt;
     ball.y += ball.yv * clock.dt;
     if (ball.y < 0) {
@@ -25,13 +35,25 @@ void Logic::Update() {
         ball.y = window_length - ball.l;
         ball.yv *= -1;
     }
-
-    MovePaddles();
-
-    network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y);
-    //std:: cout << network_msg << " | clock: " << clock.dt << " | vel = " << float(paddle_vy * clock.dt) << "down=" << p1Down << "up=" << p1Up << std::endl;
 }
 
+void Logic::UpdatePaddles() {
+    p1.y += paddle_vy * p1.direction * clock.dt;
+    p2.y += paddle_vy * p2.direction * clock.dt;
+
+    if (p1.y < 0)
+        p1.y = 0;
+    if (p2.y < 0)
+        p2.y = 0;
+    if (p1.y + paddle_height > window_length)
+        p1.y = window_length - paddle_height;
+    if (p2.y + paddle_height > window_length)
+        p2.y = window_length - paddle_height;
+}
+
+// ^ =  1 = moving down
+// v = -1 = moving up
+// 0 = not moving
 void Logic::TakeInput(int player, std::string input) {
     if (player == 1) {
         if (input == "v") {
@@ -50,11 +72,6 @@ void Logic::TakeInput(int player, std::string input) {
             p2.direction = 0;
         }
     }
-}
-
-void Logic::MovePaddles() {
-    p1.y += paddle_vy * p1.direction * clock.dt;
-    p2.y += paddle_vy * p2.direction * clock.dt;
 }
 
 std::string Logic::GetNetworkMsg() {

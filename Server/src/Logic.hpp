@@ -24,12 +24,13 @@ struct Ball {
 class Logic {
 public:
     Logic();
-    void NewPlayer();
+    void NewPlayer();                              // If another player can join, the player's info is setup
     void Update();
+    void UpdateBall();
+    void UpdatePaddles();
     void TakeInput(int player, std::string input);
-    void MovePaddles();
-    std::string GetNetworkMsg();
-    bool GameFull();
+    std::string GetNetworkMsg();                   // Returns message to send to all connected players
+    bool GameFull();                               // Checks if another player can join
 private:
     int window_length;
     Clock clock;
