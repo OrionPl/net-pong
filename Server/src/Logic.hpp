@@ -26,7 +26,7 @@ public:
     void NewPlayer();
     void Update();
     void TakeInput(int player, std::string input);
-    void MovePaddles(int player);
+    void MovePaddles();
     std::string GetNetworkMsg();
     bool GameFull();
 private:

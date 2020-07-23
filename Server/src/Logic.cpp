@@ -25,8 +25,7 @@ void Logic::Update() {
         ball.yv *= -1;
     }
 
-    MovePaddles(1);
-    MovePaddles(2);
+    MovePaddles();
 
     network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y);
     //std:: cout << network_msg << " | clock: " << clock.dt << " | vel = " << float(paddle_vy * clock.dt) << "down=" << p1Down << "up=" << p1Up << std::endl;
@@ -60,19 +59,17 @@ void Logic::TakeInput(int player, std::string input) {
     }
 }
 
-void Logic::MovePaddles(int player) {
-    if (player == 1) {
-        if (p1Down) {
-            p1.y += paddle_vy * clock.dt;
-        } else if (p1Up) {
-            p1.y -= paddle_vy * clock.dt;
-        }
-    } else {
-        if (p2Down) {
-            p2.y += paddle_vy * clock.dt;
-        } else if (p2Up) {
+void Logic::MovePaddles() {
+    if (p1Down) {
+        p1.y += paddle_vy * clock.dt;
+    } else if (p1Up) {
+        p1.y -= paddle_vy * clock.dt;
+    }
+
+    if (p2Down) {
+        p2.y += paddle_vy * clock.dt;
+    } else if (p2Up) {
             p2.y -= paddle_vy * clock.dt;
-        }
     }
 }
 
