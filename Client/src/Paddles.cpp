@@ -24,8 +24,6 @@ void Paddles::Draw(SDL_Renderer* renderer) {
 void Paddles::SetPaddle(int index, float x, float y) {
     index += 0;
 
-    SDL_Log(std::to_string(x).c_str());
-
     m_paddle2.x = x;
     m_paddle2.y = y;
 }

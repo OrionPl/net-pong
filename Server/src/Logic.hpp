@@ -6,9 +6,10 @@
 #include "Clock.hpp"
 
 struct Player {
-    int x;
-    int y;
+    float x;
+    float y;
     int score;
+    int direction;
     std::string name;
 };
 
@@ -23,12 +24,13 @@ struct Ball {
 class Logic {
 public:
     Logic();
-    void NewPlayer();
+    void NewPlayer();                              // If another player can join, the player's info is setup
     void Update();
+    void UpdateBall();
+    void UpdatePaddles();
     void TakeInput(int player, std::string input);
-    void MovePaddles();
-    std::string GetNetworkMsg();
-    bool GameFull();
+    std::string GetNetworkMsg();                   // Returns message to send to all connected players
+    bool GameFull();                               // Checks if another player can join
 private:
     int window_length;
     Clock clock;
@@ -36,13 +38,9 @@ private:
     Ball ball;
     Player p1;
     Player p2;
-    float paddle_vy = 1000;
+    float paddle_vy;
     int paddle_width;
     int paddle_height;
-    bool p1Up = false;
-    bool p2Up = false;
-    bool p1Down = false;
-    bool p2Down = false;
 
     std::string network_msg;
 };
