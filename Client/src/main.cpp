@@ -51,6 +51,9 @@ int main(int argc, char* argv[]) {
         } else if (keys_down[SDL_SCANCODE_DOWN]) {
             net.Send("v");
         }
+        else {
+            net.Send("-");
+        }
 
 
         SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);

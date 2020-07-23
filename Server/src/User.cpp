@@ -37,7 +37,7 @@ void User::Receive()
 void User::HandleQuery(std::string* query)
 {
 	Helper help;
-	std::cout << *query << std::endl;
+	//std::cout << *query << std::endl;
 
 	if (!userInfoDone)
 	{
@@ -47,7 +47,7 @@ void User::HandleQuery(std::string* query)
 	{
 		server->GetLogic()->TakeInput(1, *query);
 		// std::cout << name << ">$$$$$$$$$$$$$$$$ " << *query << std::endl;
-		Send("Stop this shit");
+		//Send("Stop this shit");
 	}
 }
 
