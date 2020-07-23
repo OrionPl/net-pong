@@ -18,12 +18,12 @@ class Server;
 class User
 {
 public:
-	User(SOCKET Socket, std::string IP, Server* _server);
+	User(SOCKET Socket, std::string IP, Server* _server, int playerNum);
 	std::string GetName() const { return name; };
 	std::string GetIP() const { return ip; };
 	SOCKET* GetSocket() { return &socket; };
 	void Send(std::string text);
-	int GetPlayerNumber() { if (p1) { return 1; if (p2) { return 2; } }
+	int GetPlayerNumber() { if (p1) { return 1; } if (p2) { return 2; } }
  
 private:
 	std::string name;
