@@ -6,9 +6,10 @@
 #include "Clock.hpp"
 
 struct Player {
-    int x;
-    int y;
+    float x;
+    float y;
     int score;
+    int direction;
     std::string name;
 };
 

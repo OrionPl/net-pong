@@ -34,43 +34,26 @@ void Logic::Update() {
 void Logic::TakeInput(int player, std::string input) {
     if (player == 1) {
         if (input == "v") {
-            //std::cout << "player 1: pressing down" << std::endl;
-            p1Down = true;
-            p1Up = false;
+            p1.direction = 1;
         } else if (input == "^") {
-            //std::cout << "player 1: pressing up" << std::endl;
-            p1Up = true;
-            p1Down = false;
+            p1.direction = -1;
         } else {
-            p1Up = false;
-            p1Down = false;
+            p1.direction = 0;
         }
     } else {
         if (input == "v") {
-            p2Down = true;
-            p2Up = false;
+            p2.direction = 1;
         } else if (input == "^") {
-            p2Up = true;
-            p2Down = false;
+            p2.direction == -1;
         } else {
-            p2Up = false;
-            p2Down = false;
+            p2.direction = 0;
         }
     }
 }
 
 void Logic::MovePaddles() {
-    if (p1Down) {
-        p1.y += paddle_vy * clock.dt;
-    } else if (p1Up) {
-        p1.y -= paddle_vy * clock.dt;
-    }
-
-    if (p2Down) {
-        p2.y += paddle_vy * clock.dt;
-    } else if (p2Up) {
-            p2.y -= paddle_vy * clock.dt;
-    }
+    p1.y += paddle_vy * p1.direction * clock.dt;
+    p2.y += paddle_vy * p2.direction * clock.dt;
 }
 
 std::string Logic::GetNetworkMsg() {
