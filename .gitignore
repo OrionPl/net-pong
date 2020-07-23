@@ -6,3 +6,4 @@ Client/command_o.bat
 Server/command_o.bat
 Server/.vscode/
 Client/.vscode/
+.vscode
