@@ -37,13 +37,9 @@ private:
     Ball ball;
     Player p1;
     Player p2;
-    float paddle_vy = 1000;
+    float paddle_vy;
     int paddle_width;
     int paddle_height;
-    bool p1Up = false;
-    bool p2Up = false;
-    bool p1Down = false;
-    bool p2Down = false;
 
     std::string network_msg;
 };

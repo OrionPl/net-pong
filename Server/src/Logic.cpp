@@ -3,6 +3,7 @@
 Logic::Logic() {
     window_length = 500;
 
+    paddle_vy = 1000;
     p1.x = p1.y = p2.x = p2.y = -500;
     ball.x = ball.y = ball.l = ball.xv = ball.yv = 100;
 }
