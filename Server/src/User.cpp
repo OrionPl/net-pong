@@ -54,17 +54,12 @@ void User::HandleQuery(std::string* query)
 	{
 		SetUserInfo(*query);
 	}
-	else if (*query == "v" || *query == "^" || *query == "-")
+	else
 	{
 		if (p1)
 			server->GetLogic()->TakeInput(1, *query);
 		else if (p2)
 			server->GetLogic()->TakeInput(2, *query);
-	}  // ADD ELSEIF IN CASE OF HANDLING NEW QUERIES
-	else
-	{
-		// std::cout << name << ">$$$$$$$$$$$$$$$$ " << *query << std::endl;
-		//Send("Stop this shit");
 	}
 }
 

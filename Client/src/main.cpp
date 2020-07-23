@@ -45,14 +45,17 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // Send no keys down if neither keys are down or both keys are down
+        // Directions:
+        // -1 : up
+        // 1 : down
+        // 0 : no movement
+
+        // Send no keys down if neither keys are down or both keys are down.
         if ((keys_down[SDL_SCANCODE_UP] && keys_down[SDL_SCANCODE_DOWN]) || (!keys_down[SDL_SCANCODE_UP] && !keys_down[SDL_SCANCODE_DOWN])) {
-            net.Send("-");
+            net.Send("0");
         } else {
-            // ^ = up
-            // v = down
-            // ternary is possible because this code block can only have (down_arrow_down and up_arrow_up OR up_arrow_down and down_arrow_up)
-            net.Send(keys_down[SDL_SCANCODE_UP] ? "^": "v");
+            // ternary is possible because this code block can only have (down_arrow_down and up_arrow_up OR up_arrow_down and down_arrow_up).
+            net.Send(keys_down[SDL_SCANCODE_UP] ? "-1": "1");
         }
 
 

@@ -51,26 +51,11 @@ void Logic::UpdatePaddles() {
         p2.y = window_length - paddle_height;
 }
 
-// ^ =  1 = moving down
-// v = -1 = moving up
-// 0 = not moving
 void Logic::TakeInput(int player, std::string input) {
     if (player == 1) {
-        if (input == "v") {
-            p1.direction = 1;
-        } else if (input == "^") {
-            p1.direction = -1;
-        } else {
-            p1.direction = 0;
-        }
+        p1.direction = std::stoi(input);
     } else {
-        if (input == "v") {
-            p2.direction = 1;
-        } else if (input == "^") {
-            p2.direction == -1;
-        } else {
-            p2.direction = 0;
-        }
+        p2.direction = std::stoi(input);
     }
 }
 
