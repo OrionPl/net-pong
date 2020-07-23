@@ -1,8 +1,19 @@
 #include "User.hpp"
 #include "Server.hpp"
 
-User::User(SOCKET Socket, std::string IP, Server* _server)
+User::User(SOCKET Socket, std::string IP, Server* _server, int playerNum)
 {
+	if (playerNum == 0)
+	{
+		server->OnDisconnect(this);
+		return;
+	}
+	else if (playerNum == 1)
+		p1 = true;
+	else if (playerNum == 2)
+		p2 = true;
+
+
 	socket = Socket;
 	ip = IP;
 	server = _server;
@@ -42,10 +53,16 @@ void User::HandleQuery(std::string* query)
 	if (!userInfoDone)
 	{
 		SetUserInfo(*query);
+	}
+	else if (*query == "v" || *query == "^" || *query == "-")
+	{
+		if (p1)
+			server->GetLogic()->TakeInput(1, *query);
+		else if (p2)
+			server->GetLogic()->TakeInput(2, *query);
 	}  // ADD ELSEIF IN CASE OF HANDLING NEW QUERIES
 	else
 	{
-		server->GetLogic()->TakeInput(1, *query);
 		// std::cout << name << ">$$$$$$$$$$$$$$$$ " << *query << std::endl;
 		//Send("Stop this shit");
 	}

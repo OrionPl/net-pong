@@ -23,12 +23,15 @@ public:
 	std::string GetIP() const { return ip; };
 	SOCKET* GetSocket() { return &socket; };
 	void Send(std::string text);
-
+	int GetPlayerNumber() { if (p1) { return 1; if (p2) { return 2; } }
+ 
 private:
 	std::string name;
 	std::string ip;
 	SOCKET socket;
 	Server* server;
+	bool p1 = false;
+	bool p2 = false;
 
 	void Receive();
 	void HandleQuery(std::string* query);

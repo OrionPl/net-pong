@@ -31,5 +31,8 @@ private:
 	std::thread send_to_users_thread;
 	std::vector<User*> users;
 	Logic* logic;
+
+	bool p1connected = false;
+	bool p2connected = false;
 };
 #endif
