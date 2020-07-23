@@ -6,8 +6,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "Clock.cpp"
-
 #include "Window.hpp"
 #include "Ball.hpp"
 #include "Paddles.hpp"
@@ -26,12 +24,14 @@ int main(int argc, char* argv[]) {
 
     Networking net("127.0.0.1", 66666, "orion1", &paddles);
 
-    Clock clock;
     SDL_Event event;
     const Uint8* keys_down = SDL_GetKeyboardState(NULL);
 
     bool quit = false;
     while (!quit) {
+
+        // UPDATE
+
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -44,17 +44,20 @@ int main(int argc, char* argv[]) {
                 default: break;
             }
         }
-        clock.tick();
 
-        if (keys_down[SDL_SCANCODE_UP]) {
-            net.Send("^");
-        } else if (keys_down[SDL_SCANCODE_DOWN]) {
-            net.Send("v");
-        }
-        else {
+        // Send no keys down if neither keys are down or both keys are down
+        if ((keys_down[SDL_SCANCODE_UP] && keys_down[SDL_SCANCODE_DOWN]) || (!keys_down[SDL_SCANCODE_UP] && !keys_down[SDL_SCANCODE_DOWN])) {
             net.Send("-");
+        } else {
+            // ^ = up
+            // v = down
+            // ternary is possible because this code block can only have (down_arrow_down and up_arrow_up OR up_arrow_down and down_arrow_up)
+            net.Send(keys_down[SDL_SCANCODE_UP] ? "^": "v");
         }
 
+
+
+        // DRAW
 
         SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);
         SDL_RenderClear(window.GetRenderer());
