@@ -1,27 +1,16 @@
 #include "User.hpp"
 #include "Server.hpp"
 
-User::User(SOCKET Socket, std::string IP, Server* _server, int playerNum)
+User::User(SOCKET Socket, std::string IP, Server* _server)
 {
-	if (playerNum == 0)
-	{
-		server->OnDisconnect(this);
-		return;
-	}
-	else if (playerNum == 1)
-		p1 = true;
-	else if (playerNum == 2)
-		p2 = true;
-
-
 	socket = Socket;
 	ip = IP;
 	server = _server;
-	server->GetLogic()->NewPlayer();
+	userInfoDone = false;
+	player_index = server->GetLogic()->NewPlayer_GetIndex();
 
 	std::thread receiveThread(&User::Receive, this);
 	receiveThread.detach();
-
 }
 
 void User::Receive()
@@ -34,32 +23,21 @@ void User::Receive()
 
 		if (bytesReceived > 0)
 		{
-			std::string received = std::string(buffer, 0, bytesReceived);
-			HandleQuery(&received);
+			std::string msg = std::string(buffer, 0, bytesReceived);
+
+			if (!userInfoDone) {
+				SetUserInfo(msg);
+			}
+			else {
+				server->GetLogic()->TakeInput(player_index, msg);
+			}
 		}
 		else
 		{
+			server->GetLogic()->RemovePlayer(player_index);
 			server->OnDisconnect(this);
 			break;
 		}
-	}
-}
-
-void User::HandleQuery(std::string* query)
-{
-	Helper help;
-	//std::cout << *query << std::endl;
-
-	if (!userInfoDone)
-	{
-		SetUserInfo(*query);
-	}
-	else
-	{
-		if (p1)
-			server->GetLogic()->TakeInput(1, *query);
-		else if (p2)
-			server->GetLogic()->TakeInput(2, *query);
 	}
 }
 

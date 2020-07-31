@@ -8,11 +8,25 @@ Logic::Logic() {
     paddle_width = 30;
     paddle_height = 50;
     paddle_vy = 1000;
-    p1.x = p1.y = p2.x = p2.y = -500;
+    default_offscreen_v = -500;
+    p1.x = p1.y = p2.x = p2.y = default_offscreen_v; // default off-screen value
 }
 
-void Logic::NewPlayer() {
-    p1.x = p1.y = 10;
+int Logic::NewPlayer_GetIndex() {
+    if (p1.x == default_offscreen_v)
+        p1.x = p1.y = 10;
+    else
+        p2.x = p2.y = 100;
+
+    return p2.x != default_offscreen_v; // if this is true, that means we have only set the first player, otherwise we have set both players. The bools evaluate to the index because we only ever get 2 players at once.
+}
+
+void Logic::RemovePlayer(int p_index) {
+    if (p_index) {
+        p2.x = p2.y = default_offscreen_v;
+    } else {
+        p1.x = p1.y = default_offscreen_v;
+    }
 }
 
 void Logic::Update() {
@@ -21,7 +35,7 @@ void Logic::Update() {
     UpdateBall();
     UpdatePaddles();
 
-    network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y);
+    network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y) + "," + std::to_string(p2.x) + "," + std::to_string(p2.y);
 }
 
 void Logic::UpdateBall() {
@@ -52,7 +66,7 @@ void Logic::UpdatePaddles() {
 }
 
 void Logic::TakeInput(int player, std::string input) {
-    if (player == 1) {
+    if (!player) { // -1 because player *** 1 *** has index *** 0 ***
         p1.direction = std::stoi(input);
     } else {
         p2.direction = std::stoi(input);

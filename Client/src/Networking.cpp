@@ -95,12 +95,14 @@ void Networking::HandleQuery(std::string msg)
 {
 	Helper help;
 
+	std::cout << msg << std::endl;
 	if (msg[0] == '$') { // game logic prefix is $
 		msg.erase(0, 1); // remove the $ prefix when viewing data
 
 
-		std::vector<int> msg_data;
 
+		// splitting data by commas
+		std::vector<int> msg_data;
 		std::string delimiter = ",";
 		std::istringstream ss(msg);
 		std::string token;
@@ -110,10 +112,13 @@ void Networking::HandleQuery(std::string msg)
 			msg_data.push_back(std::stoi(token));
 		}
 		paddles->SetPaddle(1, msg_data[0], msg_data[1]);
+		paddles->SetPaddle(2, msg_data[2], msg_data[3]);
 
 	}
-
-	if (help.StringStartsWith(msg, "msgfrom"))
+	// else if (msg[0] == "#") {// for initial data, prefix is #. For now it's only for whether the client is p1 or p2
+	// 	std::cout << name << "> " << mes << std::endl;
+	// }
+	else if (help.StringStartsWith(msg, "msgfrom"))
 	{
 		msg = help.ShortenStringFromLeft(msg, 8);
 		std::string name = help.GetStringUntil(msg, "###");

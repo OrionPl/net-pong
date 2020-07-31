@@ -24,7 +24,8 @@ struct Ball {
 class Logic {
 public:
     Logic();
-    void NewPlayer();                              // If another player can join, the player's info is setup
+    int NewPlayer_GetIndex();                       // sets up a new player and returns the index of that new player, i.e. 0 or 1
+    void RemovePlayer(int p_index);
     void Update();
     void UpdateBall();
     void UpdatePaddles();
@@ -41,6 +42,8 @@ private:
     float paddle_vy;
     int paddle_width;
     int paddle_height;
+    int default_offscreen_v;
+
 
     std::string network_msg;
 };

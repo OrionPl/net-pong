@@ -22,16 +22,8 @@ void Server::OnConnect(SOCKET clientSock, sockaddr_in* client)
 		std::cout << host << " connected to port " << ntohs(client->sin_port) << std::endl;
 	}
 
-	int pNum = 0;
 
-	if (!p1connected)
-		pNum = 1;
-	else if (p1connected && !p2connected)
-		pNum = 2;
-	else
-		pNum = 0;
-
-	new User(clientSock, host, this, pNum);
+	new User(clientSock, host, this);
 }
 
 void Server::OnDisconnect(User* user)

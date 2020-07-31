@@ -18,20 +18,17 @@ class Server;
 class User
 {
 public:
-	User(SOCKET Socket, std::string IP, Server* _server, int playerNum);
+	User(SOCKET Socket, std::string IP, Server* _server);
 	std::string GetName() const { return name; };
 	std::string GetIP() const { return ip; };
 	SOCKET* GetSocket() { return &socket; };
 	void Send(std::string text);
-	int GetPlayerNumber() { if (p1) { return 1; } if (p2) { return 2; } }
- 
+
 private:
 	std::string name;
 	std::string ip;
 	SOCKET socket;
 	Server* server;
-	bool p1 = false;
-	bool p2 = false;
 
 	void Receive();
 	void HandleQuery(std::string* query);
@@ -39,5 +36,6 @@ private:
 	void SendFile(std::string dir, std::string filename);
 
 	bool userInfoDone = false;
+	int player_index;
 };
 #endif

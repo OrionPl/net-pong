@@ -22,8 +22,11 @@ void Paddles::Draw(SDL_Renderer* renderer) {
 }
 
 void Paddles::SetPaddle(int index, float x, float y) {
-    index += 0;
-
-    m_paddle2.x = x;
-    m_paddle2.y = y;
+    if (!index) {
+        m_paddle1.x = x;
+        m_paddle1.y = y;
+    } else {
+        m_paddle2.x = x;
+        m_paddle1.y = y;
+    }
 }
