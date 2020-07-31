@@ -27,6 +27,6 @@ void Paddles::SetPaddle(int index, float x, float y) {
         m_paddle1.y = y;
     } else {
         m_paddle2.x = x;
-        m_paddle1.y = y;
+        m_paddle2.y = y;
     }
 }

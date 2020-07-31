@@ -16,7 +16,8 @@ int Logic::NewPlayer_GetIndex() {
     if (p1.x == default_offscreen_v)
         p1.x = p1.y = 10;
     else
-        p2.x = p2.y = 100;
+        p2.x= window_length - paddle_width;
+        p2.y = 10;
 
     return p2.x != default_offscreen_v; // if this is true, that means we have only set the first player, otherwise we have set both players. The bools evaluate to the index because we only ever get 2 players at once.
 }
