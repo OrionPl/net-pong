@@ -1,4 +1,5 @@
 #include "Paddles.hpp"
+#include <iostream>
 
 Paddles::Paddles(int window_length) {
     m_window_length = window_length;
@@ -21,12 +22,9 @@ void Paddles::Draw(SDL_Renderer* renderer) {
     SDL_RenderDrawRect(renderer, &m_rect);
 }
 
-void Paddles::SetPaddle(int index, float x, float y) {
-    if (!index) {
-        m_paddle1.x = x;
-        m_paddle1.y = y;
-    } else {
-        m_paddle2.x = x;
-        m_paddle2.y = y;
-    }
+void Paddles::SetPaddles(float x1, float y1, float x2, float y2) {
+    m_paddle1.x = x1;
+    m_paddle1.y = y1;
+    m_paddle2.x = x2;
+    m_paddle2.y = y2;
 }

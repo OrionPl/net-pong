@@ -95,6 +95,8 @@ void Networking::HandleQuery(std::string msg)
 {
 	Helper help;
 
+	SDL_Log(msg.c_str());
+
 	if (msg[0] == '$') { // game logic prefix is $
 		msg.erase(0, 1); // remove the $ prefix when viewing data
 
@@ -108,8 +110,7 @@ void Networking::HandleQuery(std::string msg)
 			while(*(++it)) ss.get();
 			msg_data.push_back(std::stoi(token));
 		}
-		paddles->SetPaddle(0, msg_data[0], msg_data[1]);
-		paddles->SetPaddle(1, msg_data[2], msg_data[3]);
+		paddles->SetPaddles(msg_data[0], msg_data[1], msg_data[2], msg_data[3]);
 
 	}
 	// else if (msg[0] == "#") {// for initial data, prefix is #. For now it's only for whether the client is p1 or p2

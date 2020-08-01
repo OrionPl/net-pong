@@ -100,4 +100,3 @@ void User::Send(std::string text)
 {
 	send(socket, text.c_str(), text.size() + 1, 0);
 }
-

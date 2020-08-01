@@ -33,9 +33,9 @@ void Server::OnDisconnect(User* user)
 
 	for (int i = 0; i < users.size(); i++)
 	{
-		if (users[i]->GetName() == user->GetName())
-		{
+		if (users[i]->GetName() == user->GetName()) {
 			users.erase(users.begin() + i);
+			break;
 		}
 	}
 

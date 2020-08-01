@@ -14,6 +14,7 @@ int main(int argc, char*[])
     while (true) {
         logic.Update();
         serv->SendToAllUsers(logic.GetNetworkMsg());
+        std::cout << logic.GetNetworkMsg() << std::endl;
     }
 
     return 0;
