@@ -1,8 +1,7 @@
 #include "User.hpp"
 #include "Server.hpp"
 
-User::User(SOCKET Socket, std::string IP, Server* _server)
-{
+User::User(SOCKET Socket, std::string IP, Server* _server) {
 	socket = Socket;
 	ip = IP;
 	server = _server;
@@ -13,16 +12,13 @@ User::User(SOCKET Socket, std::string IP, Server* _server)
 	receiveThread.detach();
 }
 
-void User::Receive()
-{
-	while (true)
-	{
+void User::Receive() {
+	while (true) {
 		char buffer[4096];
 
 		int bytesReceived = recv(socket, buffer, 4096, 0);
 
-		if (bytesReceived > 0)
-		{
+		if (bytesReceived > 0) {
 			std::string msg = std::string(buffer, 0, bytesReceived);
 
 			if (!userInfoDone) {
@@ -32,8 +28,7 @@ void User::Receive()
 				server->GetLogic()->TakeInput(player_index, msg);
 			}
 		}
-		else
-		{
+		else {
 			server->GetLogic()->RemovePlayer(player_index);
 			server->OnDisconnect(this);
 			break;
@@ -41,18 +36,14 @@ void User::Receive()
 	}
 }
 
-void User::SetUserInfo(std::string msg)
-{
+void User::SetUserInfo(std::string msg) {
 	Helper help;
 
-	if (!help.StringStartsWith(msg, "userInfo"))
-	{
+	if (!help.StringStartsWith(msg, "userInfo")) {
 		closesocket(socket);
 	}
-	else if (help.StringStartsWith(msg, "userInfo"))
-	{
-		for (int i = 9; i < msg.length(); i++)
-		{
+	else if (help.StringStartsWith(msg, "userInfo")) {
+		for (int i = 9; i < msg.length(); i++) {
 			msg[i - 9] = msg[i];
 			msg[i] = ' ';
 		}
@@ -67,26 +58,22 @@ void User::SetUserInfo(std::string msg)
 
 		std::vector<User*> users = *(server->GetUsers());
 
-		for (int i = 0; i < users.size(); i++)
-		{
+		for (int i = 0; i < users.size(); i++) {
 			Send("con " + users[i]->GetName());
 		}
 	}
 }
 
-void User::SendFile(std::string dir, std::string filename)
-{
+void User::SendFile(std::string dir, std::string filename) {
 	std::ifstream file(dir);
 	std::string line;
 
-	if (!file)
-		return;
+	if (!file) return;
 
 
 	Send("FILENAME " + filename);
 
-	while (std::getline(file, line))
-	{
+	while (std::getline(file, line)) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 		Send(line);
 	}
@@ -96,7 +83,6 @@ void User::SendFile(std::string dir, std::string filename)
 	Send("#EOF");
 }
 
-void User::Send(std::string text)
-{
+void User::Send(std::string text) {
 	send(socket, text.c_str(), text.size() + 1, 0);
 }

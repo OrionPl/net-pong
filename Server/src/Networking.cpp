@@ -1,24 +1,18 @@
 #include "Networking.hpp"
 
-Networking::Networking(int port, Logic* _logic)
-{
+Networking::Networking(int port, Logic* _logic) {
     InitializeWinsock();
 	CreateServerSocket(_logic);
 	BindSocketToPort(port);
 	StartListeningThread();
-
-	// closesocket(listenSock);
-	// WSACleanup();
 }
 
-Networking::~Networking()
-{
+Networking::~Networking() {
 	closesocket(listenSock);
 	WSACleanup();
 }
 
-void Networking::InitializeWinsock()
-{
+void Networking::InitializeWinsock() {
 	WSADATA wsData;
 	WORD ver = MAKEWORD(2, 2);
 
@@ -30,20 +24,14 @@ void Networking::InitializeWinsock()
 	}
 }
 
-void Networking::CreateServerSocket(Logic* _logic)
-{
+void Networking::CreateServerSocket(Logic* _logic) {
 	listenSock = socket(AF_INET, SOCK_STREAM, 0);
 
-	if (listenSock == INVALID_SOCKET)
-	{
-		std::cerr << "SHIT! Can't create a socket!" << std::endl;
-	}
-
+	if (listenSock == INVALID_SOCKET) std::cerr << "SHIT! Can't create a socket!" << std::endl;
 	server = new Server(&listenSock, _logic);
 }
 
-void Networking::BindSocketToPort(int port)
-{
+void Networking::BindSocketToPort(int port) {
 	std::cout << "Binding to port " << port << std::endl;
 
 	sockaddr_in hint;
@@ -58,8 +46,7 @@ void Networking::StartListeningThread() {
 	main_network_thread = std::thread(&Networking::StartListening, this);
 }
 
-void Networking::StartListening()
-{
+void Networking::StartListening() {
 	std::cout << "Starting listening" << std::endl;
 
 	int maxConnections = 2;
@@ -71,21 +58,17 @@ void Networking::StartListening()
 	AcceptIncomingConnections();
 }
 
-void Networking::AcceptIncomingConnections()
-{
-	while (true)
-	{
+void Networking::AcceptIncomingConnections() {
+	while (true) {
 		sockaddr_in client;
 		int clientSize = sizeof(client);
 
 		SOCKET newSocket = accept(listenSock, (sockaddr*)& client, &clientSize);
 
-		if (newSocket == INVALID_SOCKET)
-		{
+		if (newSocket == INVALID_SOCKET) {
 			std::cout << "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
-		else
-		{
+		else {
 			std::thread connectionHandler(&Server::OnConnect, server, newSocket, &client);
 			connectionHandler.detach();
 		}

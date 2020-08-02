@@ -31,7 +31,6 @@ public:
     void UpdatePaddles();
     void TakeInput(int player, std::string input);
     std::string GetNetworkMsg();                   // Returns message to send to all connected players
-    bool GameFull();                               // Checks if another player can join
 private:
     int window_length;
     Clock clock;

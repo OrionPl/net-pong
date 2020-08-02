@@ -5,8 +5,7 @@
 
 #include "Logic.hpp"
 
-int main(int argc, char*[])
-{
+int main(int argc, char*[]) {
     Logic logic;
     Networking net(66666, &logic);
     Server* serv = net.GetServer();

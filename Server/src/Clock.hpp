@@ -4,8 +4,7 @@
 #include <string>
 #include <iostream>
 
-struct Clock
-{
+struct Clock {
     std::chrono::time_point<std::chrono::high_resolution_clock> elapsed;
     std::chrono::time_point<std::chrono::high_resolution_clock> previous_elapsed;
     double dt;

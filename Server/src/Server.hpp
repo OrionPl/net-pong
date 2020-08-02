@@ -12,8 +12,7 @@ class User;
 #include "User.hpp"
 #include "Logic.hpp"
 
-class Server
-{
+class Server {
 public:
 	Server(SOCKET* serverSock, Logic* _logic);
 	void OnConnect(SOCKET clientSock, sockaddr_in* client);

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef USER_H_
-#define USER_H_
-
 class Server;
 
 #include <iostream>
@@ -15,8 +12,7 @@ class Server;
 #include "Utilities/Helper.h"
 #include "Server.hpp"
 
-class User
-{
+class User {
 public:
 	User(SOCKET Socket, std::string IP, Server* _server);
 	~User() { };
@@ -39,4 +35,3 @@ private:
 	bool userInfoDone = false;
 	int player_index;
 };
-#endif

@@ -9,7 +9,7 @@ Logic::Logic() {
     paddle_height = 50;
     paddle_vy = 1000;
     default_offscreen_v = -500;
-    p1.x = p1.y = p2.x = p2.y = default_offscreen_v; // default off-screen value
+    p1.x = p1.y = p2.x = p2.y = default_offscreen_v;
 }
 
 int Logic::NewPlayer_GetIndex() {
@@ -62,39 +62,23 @@ void Logic::UpdatePaddles() {
     if (p1.x != default_offscreen_v) { // checking whether the positions have actually been initialised (i.e. whether there's a player)
 
         p1.y += paddle_vy * p1.direction * clock.dt;
-        if (p1.y < 0)
-            p1.y = 0;
-        if (p1.y + paddle_height > window_length)
-            p1.y = window_length - paddle_height;
+        if (p1.y < 0) p1.y = 0;
+        if (p1.y + paddle_height > window_length) p1.y = window_length - paddle_height;
 
     }
 
     if (p2.x != default_offscreen_v) {
 
         p2.y += paddle_vy * p2.direction * clock.dt;
-        if (p2.y < 0)
-            p2.y = 0;
-        if (p2.y + paddle_height > window_length)
-            p2.y = window_length - paddle_height;
+        if (p2.y < 0) p2.y = 0;
+        if (p2.y + paddle_height > window_length) p2.y = window_length - paddle_height;
 
     }
 }
 
 void Logic::TakeInput(int player, std::string input) {
-    //std::cout << "input: " << input << std::endl;
-    if (player) { // if player index is 1, then it means player 2, because we have player indexes [0, 1]
-        p2.direction = std::stoi(input);
-    } else {
-        //std::cout << "moving player 1" << std::endl;
-        p1.direction = std::stoi(input);
-    }
+    if (player) p2.direction = std::stoi(input); // if player index is 1, then it means player 2, because we have player indexes [0, 1]
+    else p1.direction = std::stoi(input);
 }
 
-std::string Logic::GetNetworkMsg() {
-    return network_msg;
-}
-
-// checks if the x values have been set, i.e. whether a player has connected
-bool Logic::GameFull() {
-    return p1.x == -1 || p2.x == -1;
-}
+std::string Logic::GetNetworkMsg() { return network_msg; }
