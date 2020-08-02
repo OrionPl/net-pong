@@ -23,7 +23,7 @@ void Server::OnConnect(SOCKET clientSock, sockaddr_in* client) {
 }
 
 void Server::OnDisconnect(User* user) {
-	PRINT user->GetName() + " disconnected" + "\n";
+	PRINT user->GetName() + " disconnected\n";
 	SendToAllUsers("dcon " + user->GetName());
 
 	for (int i = 0; i < users.size(); i++) {
@@ -39,6 +39,7 @@ void Server::OnDisconnect(User* user) {
 		PRINT "Noone is connected\n";
 	}
 	else {
+		PRINT "current connections:\n";
 		for (int i = 0; i < users.size(); i++) {
 			PRINT users[i]->GetName() + " is connected\n";
 		}
@@ -50,7 +51,7 @@ void Server::OnDisconnect(User* user) {
 void Server::AddUser(User* user) {
 	users.push_back(user);
 	SendToAllUsersBesidesThis("con " + user->GetName(), user);
-	PRINT user->GetName() + " connected" + "\n";
+	PRINT user->GetName() + " connected\n";
 }
 
 std::string Server::ConfirmUsername(std::string proposed_username) {
