@@ -118,22 +118,22 @@ void Networking::HandleQuery(std::string msg)
 	// }
 	else if (help.StringStartsWith(msg, "msgfrom"))
 	{
-		msg = help.ShortenStringFromLeft(msg, 8);
+		msg = msg.substr(0, 8);
 		std::string name = help.GetStringUntil(msg, "###");
-		std::string mes = help.ShortenStringFromLeft(msg, name.length() + 3);
+		std::string mes = msg.substr(0, name.length() + 3);
 
 		//if (name != nick)
 		std::cout << name << "> " << mes << std::endl;
 	}
 	else if (help.StringStartsWith(msg, "con"))
 	{
-		msg = help.ShortenStringFromLeft(msg, 4);
+		msg = msg.substr(0, 4);
 
 		std::cout << msg << " connected!" << std::endl;
 	}
 	else if (help.StringStartsWith(msg, "dcon"))
 	{
-		msg = help.ShortenStringFromLeft(msg, 5);
+		msg = msg.substr(0, 5);
 
 		std::cout << msg << " disconnected!" << std::endl;
 	}
