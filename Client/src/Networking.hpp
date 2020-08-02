@@ -11,7 +11,7 @@
 
 #pragma comment (lib, "Ws2_32.lib")
 
-#include "Utilities/Helper.h"
+#include "Utilities/Helper.hpp"
 
 #include "Paddles.hpp"
 

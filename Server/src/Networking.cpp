@@ -18,21 +18,18 @@ void Networking::InitializeWinsock() {
 
 	int wsok = WSAStartup(ver, &wsData);
 
-	if (wsok != 0)
-	{
-		std::cerr << "SHIT! Can't Initialize winsock!" << std::endl;
-	}
+	if (wsok != 0) PRINT "SHIT! Can't Initialize winsock!\n";
 }
 
 void Networking::CreateServerSocket(Logic* _logic) {
 	listenSock = socket(AF_INET, SOCK_STREAM, 0);
 
-	if (listenSock == INVALID_SOCKET) std::cerr << "SHIT! Can't create a socket!" << std::endl;
+	if (listenSock == INVALID_SOCKET) PRINT "SHIT! Can't create a socket!\n";
 	server = new Server(&listenSock, _logic);
 }
 
 void Networking::BindSocketToPort(int port) {
-	std::cout << "Binding to port " << port << std::endl;
+	PRINT "Binding to port " << port << std::endl;
 
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
@@ -47,13 +44,13 @@ void Networking::StartListeningThread() {
 }
 
 void Networking::StartListening() {
-	std::cout << "Starting listening" << std::endl;
+	PRINT "Starting listening\n";
 
 	int maxConnections = 2;
 
 	listen(listenSock, maxConnections);
 
-	std::cout << "Waiting for connections..." << std::endl;
+	PRINT "Waiting for connections...\n";
 
 	AcceptIncomingConnections();
 }
@@ -66,7 +63,7 @@ void Networking::AcceptIncomingConnections() {
 		SOCKET newSocket = accept(listenSock, (sockaddr*)& client, &clientSize);
 
 		if (newSocket == INVALID_SOCKET) {
-			std::cout << "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
+			PRINT "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
 		else {
 			std::thread connectionHandler(&Server::OnConnect, server, newSocket, &client);

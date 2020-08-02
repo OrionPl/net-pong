@@ -11,11 +11,11 @@ void Server::OnConnect(SOCKET clientSock, sockaddr_in* client) {
 	char service[NI_MAXSERV];
 
 	if (getnameinfo((sockaddr*)& client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0) {
-		std::cout << host << " connected on port " << service << std::endl;
+		PRINT host << " connected on port " << service << "\n";
 	}
 	else {
 		//inet_ntop(AF_INET, &client->sin_addr, host, NI_MAXHOST); //DOES NOT WORK WITH MINGW????????
-		std::cout << host << " connected to port " << ntohs(client->sin_port) << std::endl;
+		PRINT host << " connected to port " << ntohs(client->sin_port) << "\n";
 	}
 
 
@@ -23,7 +23,7 @@ void Server::OnConnect(SOCKET clientSock, sockaddr_in* client) {
 }
 
 void Server::OnDisconnect(User* user) {
-	std::cout << user->GetName() << " disconnected" << std::endl;
+	PRINT user->GetName() + " disconnected" + "\n";
 	SendToAllUsers("dcon " + user->GetName());
 
 	for (int i = 0; i < users.size(); i++) {
@@ -36,11 +36,11 @@ void Server::OnDisconnect(User* user) {
 	users.shrink_to_fit();
 
 	if (users.empty()) {
-		std::cout << std::endl << "Noone is connected" << std::endl;
+		PRINT "Noone is connected\n";
 	}
 	else {
 		for (int i = 0; i < users.size(); i++) {
-			std::cout << users[i]->GetName() << " is connected" << std::endl;
+			PRINT users[i]->GetName() + " is connected\n";
 		}
 	}
 
@@ -50,7 +50,7 @@ void Server::OnDisconnect(User* user) {
 void Server::AddUser(User* user) {
 	users.push_back(user);
 	SendToAllUsersBesidesThis("con " + user->GetName(), user);
-	std::cout << user->GetName() << " connected" << std::endl;
+	PRINT user->GetName() + " connected" + "\n";
 }
 
 std::string Server::ConfirmUsername(std::string proposed_username) {

@@ -21,7 +21,7 @@ Networking::Networking(std::string IP, int Port, std::string Nick, Paddles* _pad
 	}
 	catch (std::string error)
 	{
-		std::cout << "Error when connecting to server: " << error << std::endl;
+		PRINT "Error when connecting to server: " + error + "\n";
 	}
 }
 
@@ -39,7 +39,7 @@ void Networking::InitializeWinsock()
 
 	if (wsok != 0)
 	{
-		std::cerr << "SHIT! Can't Initialize winsock!" << std::endl;
+		PRINT "SHIT! Can't Initialize winsock!\n";
 	}
 
 	if((Socket = socket(AF_INET , SOCK_STREAM , 0 )) == INVALID_SOCKET)
@@ -58,7 +58,7 @@ void Networking::Connect()
 
 	if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0)
 	{
-		std::cout << "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
+		PRINT "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
 	}
 }
 
@@ -113,9 +113,6 @@ void Networking::HandleQuery(std::string msg)
 		paddles->SetPaddles(msg_data[0], msg_data[1], msg_data[2], msg_data[3]);
 
 	}
-	// else if (msg[0] == "#") {// for initial data, prefix is #. For now it's only for whether the client is p1 or p2
-	// 	std::cout << name << "> " << mes << std::endl;
-	// }
 	else if (help.StringStartsWith(msg, "msgfrom"))
 	{
 		msg = msg.substr(0, 8);
@@ -123,23 +120,23 @@ void Networking::HandleQuery(std::string msg)
 		std::string mes = msg.substr(0, name.length() + 3);
 
 		//if (name != nick)
-		std::cout << name << "> " << mes << std::endl;
+		PRINT name + "> " + mes + "\n";
 	}
 	else if (help.StringStartsWith(msg, "con"))
 	{
 		msg = msg.substr(0, 4);
 
-		std::cout << msg << " connected!" << std::endl;
+		PRINT msg + " connected!\n";
 	}
 	else if (help.StringStartsWith(msg, "dcon"))
 	{
 		msg = msg.substr(0, 5);
 
-		std::cout << msg << " disconnected!" << std::endl;
+		PRINT msg << " disconnected!\n";
 	}
 	else
 	{
-		std::cout << "SERVER> " << msg << std::endl;
+		PRINT "SERVER> " + msg + "\n";
 	}
 }
 

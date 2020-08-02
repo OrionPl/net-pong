@@ -5,6 +5,8 @@
 #include <iostream>
 #include <WS2tcpip.h>
 
+#include "Utilities/Print.h"
+
 #include "Server.hpp"
 #include "Logic.hpp"
 

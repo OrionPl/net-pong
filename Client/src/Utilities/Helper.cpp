@@ -1,4 +1,4 @@
-#include "Helper.h"
+#include "Helper.hpp"
 
 bool Helper::StringStartsWith(std::string str, std::string startsWith)
 {

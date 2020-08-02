@@ -50,7 +50,7 @@ void User::SetUserInfo(std::string msg) {
 
 		msg.resize(msg.length() - 9);
 
-		std::cout << name << " set nickname to " << msg << std::endl;
+		PRINT name + " set nickname to " + msg + "\n";
 		name = msg;
 
 		userInfoDone = true;

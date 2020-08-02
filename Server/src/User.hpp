@@ -9,7 +9,8 @@ class Server;
 #include <chrono>
 #include <WS2tcpip.h>
 
-#include "Utilities/Helper.h"
+#include "Utilities/Helper.hpp"
+#include "Utilities/Print.h"
 #include "Server.hpp"
 
 class User {
