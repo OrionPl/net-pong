@@ -52,6 +52,8 @@ void Server::OnDisconnect(User* user)
 			std::cout << users[i]->GetName() << " is connected" << std::endl;
 		}
 	}
+
+	user->~User();
 }
 
 void Server::AddUser(User* user)

@@ -19,6 +19,7 @@ class User
 {
 public:
 	User(SOCKET Socket, std::string IP, Server* _server);
+	~User() { };
 	std::string GetName() const { return name; };
 	std::string GetIP() const { return ip; };
 	SOCKET* GetSocket() { return &socket; };
