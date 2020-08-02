@@ -1,0 +1,6 @@
+port 55555
+init_logs true
+log_on_disconnect true
+log_on_connect true
+relog_connected_after_disconnect true
+log_client_msg true
