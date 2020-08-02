@@ -39,7 +39,7 @@ void Server::OnDisconnect(User* user)
 		}
 	}
 
-	users.shrink_to_fit();
+	users.shrink_to	_fit();
 
 	if (users.empty())
 	{
@@ -59,6 +59,19 @@ void Server::AddUser(User* user)
 	users.push_back(user);
 	SendToAllUsersBesidesThis("con " + user->GetName(), user);
 	std::cout << user->GetName() << " connected" << std::endl;
+}
+
+std::string Server::ConfirmUsername(std::string proposed_username) {
+
+	// if there's a duplicate username, it keeps adding "-1" until it's a unique username. e.g. There could be "orion" and "orion-1", and another user called orion wanted to join, they would keep adding "-1" until it was unique, therefore making the new user be called "orion-1-1". Not the cleanest, but works.
+
+	for (unsigned int i = 0; i < users.size()) {
+		if (proposed_username == users[i].GetName()) {
+			return ConfirmUsername(proposed_username + "-1");
+		}
+	}
+
+	return proposed_username
 }
 
 

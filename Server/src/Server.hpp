@@ -19,6 +19,7 @@ public:
 	void OnConnect(SOCKET clientSock, sockaddr_in* client);
 	void OnDisconnect(User* user);
 	void AddUser(User* user);
+	std::string ConfirmUsername(std::string proposed_username);
 	void SendToAllUsers(std::string message);
 	void SendToAllUsersBesidesThis(std::string message, User* user);
 

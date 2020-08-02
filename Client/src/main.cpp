@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
 
-    Networking net("127.0.0.1", 66666, "orion1", &paddles);
+    Networking net("94.172.188.195", 55555, "orion1", &paddles);
 
     SDL_Event event;
     const Uint8* keys_down = SDL_GetKeyboardState(NULL);
