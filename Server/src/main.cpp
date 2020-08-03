@@ -14,7 +14,7 @@ int main(int argc, char*[]) {
     LoadSettings(&settings);
 
     Logic logic;
-    Networking net(55555, &logic);
+    Networking net(&settings, &logic);
     Server* serv = net.GetServer();
 
     while (true) {

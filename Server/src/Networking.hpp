@@ -9,12 +9,13 @@
 
 #include "Server.hpp"
 #include "Logic.hpp"
+#include "Settings.hpp"
 
 #pragma comment (lib, "ws2_32.lib")
 
 class Networking {
 public:
-    Networking(int port, Logic* logic);
+    Networking(Settings* _settings, Logic* logic);
     ~Networking();
 
     Server* GetServer() { return server; };
@@ -23,6 +24,7 @@ public:
 private:
     SOCKET listenSock;
     Server* server;
+    Settings* settings;
 
     std::thread main_network_thread;
 

@@ -11,10 +11,11 @@ class User;
 
 #include "User.hpp"
 #include "Logic.hpp"
+#include "Settings.hpp"
 
 class Server {
 public:
-	Server(SOCKET* serverSock, Logic* _logic);
+	Server(SOCKET* serverSock, Logic* _logic, Settings* _settings);
 	void OnConnect(SOCKET clientSock, sockaddr_in* client);
 	void OnDisconnect(User* user);
 	void AddUser(User* user);
@@ -25,6 +26,8 @@ public:
 	std::vector<User*>* GetUsers() { return &users; };
 
 	Logic* GetLogic();
+
+	Settings* settings;
 
 private:
 	SOCKET* serverSocket;

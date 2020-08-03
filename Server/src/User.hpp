@@ -12,6 +12,7 @@ class Server;
 #include "Utilities/Helper.hpp"
 #include "Utilities/Print.h"
 #include "Server.hpp"
+#include "Settings.hpp"
 
 class User {
 public:

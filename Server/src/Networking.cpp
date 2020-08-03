@@ -1,9 +1,11 @@
 #include "Networking.hpp"
 
-Networking::Networking(int port, Logic* _logic) {
+Networking::Networking(Settings* _settings, Logic* _logic) {
+	settings = _settings;
+
     InitializeWinsock();
 	CreateServerSocket(_logic);
-	BindSocketToPort(port);
+	BindSocketToPort(settings->valueof["port"]);
 	StartListeningThread();
 }
 
@@ -18,18 +20,19 @@ void Networking::InitializeWinsock() {
 
 	int wsok = WSAStartup(ver, &wsData);
 
-	if (wsok != 0) PRINT "SHIT! Can't Initialize winsock!\n";
+	if (wsok != 0 && settings->can["log_inits"]) PRINT "SHIT! Can't Initialize winsock!\n";
 }
 
 void Networking::CreateServerSocket(Logic* _logic) {
 	listenSock = socket(AF_INET, SOCK_STREAM, 0);
 
-	if (listenSock == INVALID_SOCKET) PRINT "SHIT! Can't create a socket!\n";
-	server = new Server(&listenSock, _logic);
+	if (listenSock == INVALID_SOCKET  && settings->can["log_inits"]) PRINT "SHIT! Can't create a socket!\n";
+	server = new Server(&listenSock, _logic, settings);
 }
 
 void Networking::BindSocketToPort(int port) {
-	PRINT "Binding to port " << port << std::endl;
+	if (settings->can["log_inits"])
+		PRINT "Binding to port " << port << std::endl;
 
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
@@ -44,13 +47,15 @@ void Networking::StartListeningThread() {
 }
 
 void Networking::StartListening() {
-	PRINT "Starting listening\n";
+	if (settings->can["log_inits"])
+		PRINT "Starting listening\n";
 
 	int maxConnections = 2;
 
 	listen(listenSock, maxConnections);
 
-	PRINT "Waiting for connections...\n";
+	if (settings->can["log_inits"])
+		PRINT "Waiting for connections...\n";
 
 	AcceptIncomingConnections();
 }
@@ -63,7 +68,8 @@ void Networking::AcceptIncomingConnections() {
 		SOCKET newSocket = accept(listenSock, (sockaddr*)& client, &clientSize);
 
 		if (newSocket == INVALID_SOCKET) {
-			PRINT "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
+			if (settings->can["log_inits"])
+				PRINT "SHIT! Invalid socket error: " << WSAGetLastError() << std::endl;
 		}
 		else {
 			std::thread connectionHandler(&Server::OnConnect, server, newSocket, &client);
