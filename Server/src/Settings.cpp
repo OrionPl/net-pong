@@ -1,3 +1,5 @@
+#include "Settings.hpp"
+
 void LoadSettings(Settings* settings) {
     std::ifstream in("src/Server.variables");
     std::string line;
