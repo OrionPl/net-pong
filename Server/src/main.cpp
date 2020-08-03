@@ -20,7 +20,6 @@ int main(int argc, char*[]) {
     while (true) {
         logic.Update();
         serv->SendToAllUsers(logic.GetNetworkMsg());
-        //PRINT logic.GetNetworkMsg() + "\n";
     }
 
     return 0;

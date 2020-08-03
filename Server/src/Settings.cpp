@@ -19,14 +19,14 @@ void LoadSettings(Settings* settings) {
         switch (value[0]) {
             // bool
             case 't':
-                (*settings).can[variable_name] = true;
+                settings->can[variable_name] = true;
                 break;
             case 'f':
-                (*settings).can[variable_name] = false;
+                settings->can[variable_name] = false;
                 break;
             // otherwise just int for now
             default:
-                (*settings).valueof[variable_name] = std::stoi(value);
+                settings->valueof[variable_name] = std::stoi(value);
                 break;
         }
     }

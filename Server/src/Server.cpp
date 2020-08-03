@@ -76,6 +76,9 @@ std::string Server::ConfirmUsername(std::string proposed_username) {
 
 
 void Server::SendToAllUsers(std::string message) {
+
+	if (settings->can["log_client_msg"]) PRINT message << "\n";
+
 	for (int i = 0; i < users.size(); i++) {
 		users[i]->Send(message);
 	}
