@@ -15,6 +15,12 @@ bool Helper::StringStartsWith(std::string str, std::string startsWith) {
 	return true;
 }
 
+std::string Helper::ShortenStringFromLeft(std::string str, int length)
+{
+	str.erase(str.begin(), str.begin()+length);
+	return str;
+}
+
 std::string Helper::GetStringUntil(std::string str, std::string until) {
 	std::string ret  = "";
 	std::string next = "";
