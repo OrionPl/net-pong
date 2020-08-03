@@ -1,7 +1,7 @@
 #include "Settings.hpp"
 
 void LoadSettings(Settings* settings) {
-    std::ifstream in("src/Server.variables");
+    std::ifstream in("Server.variables");
     std::string line;
     while (std::getline(in, line)) {
         std::string variable_name;

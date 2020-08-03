@@ -50,7 +50,7 @@ void User::SetUserInfo(std::string msg) {
 
 		msg.resize(msg.length() - 9);
 
-		if (server->settings->can["log_on_disconnect"])
+		if (server->settings->can["log_on_connect"])
 			PRINT name + " set nickname to " + msg + "\n";
 		name = msg;
 
