@@ -11,6 +11,7 @@ public:
     void Draw();
     void p1();
     void p2();
+    void DestroyTextures();
 private:
     SDL_Renderer* m_renderer;
     SDL_Texture* m_texture_1;

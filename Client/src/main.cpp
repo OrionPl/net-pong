@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
 
             // Directions:
             // -1 : up
-            // 1 : down
-            // 0 : no movement
+            //  1 : down
+            //  0 : no movement
 
             // Send no keys down if neither keys are down or both keys are down.
             if ((keys_down[SDL_SCANCODE_UP] && keys_down[SDL_SCANCODE_DOWN]) || (!keys_down[SDL_SCANCODE_UP] && !keys_down[SDL_SCANCODE_DOWN])) {
@@ -80,5 +80,6 @@ int main(int argc, char* argv[]) {
     }
 
     window.Shutdown();
+    score.DestroyTextures();
     return 0;
 }

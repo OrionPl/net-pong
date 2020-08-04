@@ -57,3 +57,8 @@ void Score::p2() {
     m_texture_2 = SDL_CreateTextureFromSurface(m_renderer, surface);
     SDL_FreeSurface(surface);
 }
+
+void Score::DestroyTextures() {
+    SDL_DestroyTexture(m_texture_1);
+    SDL_DestroyTexture(m_texture_2);
+}
