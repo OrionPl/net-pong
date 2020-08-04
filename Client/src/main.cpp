@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 #include "Window.hpp"
 #include "Ball.hpp"
@@ -22,7 +23,9 @@ int main(int argc, char* argv[]) {
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
 
-    Networking net("94.172.188.195", 55555, "orion1", &paddles);
+    bool connected_to_server = false;
+    Networking net(&paddles);
+    if (connected_to_server) net.Connect("94.172.188.195", 55555, "orion1");
 
     SDL_Event event;
     const Uint8* keys_down = SDL_GetKeyboardState(NULL);
@@ -45,19 +48,22 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // Directions:
-        // -1 : up
-        // 1 : down
-        // 0 : no movement
+        if (connected_to_server) {
 
-        // Send no keys down if neither keys are down or both keys are down.
-        if ((keys_down[SDL_SCANCODE_UP] && keys_down[SDL_SCANCODE_DOWN]) || (!keys_down[SDL_SCANCODE_UP] && !keys_down[SDL_SCANCODE_DOWN])) {
-            net.Send("0");
-        } else {
-            // ternary is possible because this code block can only have (down_arrow_down and up_arrow_up OR up_arrow_down and down_arrow_up).
-            net.Send(keys_down[SDL_SCANCODE_UP] ? "-1": "1");
+            // Directions:
+            // -1 : up
+            // 1 : down
+            // 0 : no movement
+
+            // Send no keys down if neither keys are down or both keys are down.
+            if ((keys_down[SDL_SCANCODE_UP] && keys_down[SDL_SCANCODE_DOWN]) || (!keys_down[SDL_SCANCODE_UP] && !keys_down[SDL_SCANCODE_DOWN])) {
+                net.Send("0");
+            } else {
+                // ternary is possible because this code block can only have (down_arrow_down and up_arrow_up OR up_arrow_down and down_arrow_up).
+                net.Send(keys_down[SDL_SCANCODE_UP] ? "-1": "1");
+            }
+
         }
-
 
 
         // DRAW

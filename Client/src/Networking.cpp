@@ -4,25 +4,10 @@
 
 #include "Networking.hpp"
 
-Networking::Networking(std::string IP, int Port, std::string Nick, Paddles* _paddles)
+Networking::Networking(Paddles* _paddles)
 {
-	ip = IP;
-	port = Port;
-    nick = Nick;
 	paddles = _paddles;
-
-	try
-	{
-		InitializeWinsock();
-		Connect();
-		Send("userInfo " + nick);
-		receive_thread = std::thread(&Networking::Receive, this);
-		receive_thread.detach();
-	}
-	catch (std::string error)
-	{
-		PRINT "Error when connecting to server: " + error + "\n";
-	}
+	InitializeWinsock();
 }
 
 Networking::~Networking()
@@ -48,17 +33,29 @@ void Networking::InitializeWinsock()
 	}
 }
 
-void Networking::Connect()
+void Networking::Connect(std::string IP, int Port, std::string Nick)
 {
-	sockaddr_in server;
 
-	server.sin_addr.s_addr = inet_addr(ip.c_str());
-	server.sin_family = AF_INET;
-	server.sin_port = htons(port);
+	ip = IP;
+	port = Port;
+    nick = Nick;
 
-	if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0)
-	{
-		PRINT "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
+	try {
+		Send("userInfo " + nick);
+		receive_thread = std::thread(&Networking::Receive, this);
+		receive_thread.detach();
+
+		sockaddr_in server;
+
+		server.sin_addr.s_addr = inet_addr(ip.c_str());
+		server.sin_family = AF_INET;
+		server.sin_port = htons(port);
+
+		if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0)
+			PRINT "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
+	}
+	catch (std::string error) {
+		PRINT "Error when connecting to server: " + error + "\n";
 	}
 }
 

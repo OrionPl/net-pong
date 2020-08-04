@@ -12,20 +12,21 @@
 #pragma comment (lib, "Ws2_32.lib")
 
 #include "Utilities/Helper.hpp"
+#include "Utilities/Print.hpp"
 
 #include "Paddles.hpp"
 
 class Networking
 {
 public:
-	Networking(std::string IP, int Port, std::string Nick, Paddles* _paddles);
+	Networking(Paddles* _paddles);
 	~Networking();
 
+	void Connect(std::string IP, int Port, std::string Nick);
 	void Send(std::string message);
 
 private:
 	void InitializeWinsock();
-	void Connect();
 	void Receive();
 	void HandleQuery(std::string msg);
 	void Disconnect();
