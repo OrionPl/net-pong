@@ -14,10 +14,8 @@ void HandleInput(Settings* settings, bool* checkInput)
         std::string input;
         std::getline(std::cin, input);
 
-        Helper help;
-
-        if (settings->can.find(help.GetStringUntil(input, " ")) != settings->can.end())
-            ChangeSetting(settings, help.GetStringUntil(input, " "), help.ShortenStringFromLeft(input, help.GetStringUntil(input, " ").size() + 1));
+        if (settings->can.find(Helper::GetStringUntil(input, " ")) != settings->can.end())
+            ChangeSetting(settings, Helper::GetStringUntil(input, " "), Helper::ShortenStringFromLeft(input, Helper::GetStringUntil(input, " ").size() + 1));
         else
             PRINT "Invalid input" << std::endl;
     }

@@ -1,5 +1,4 @@
 #include "User.hpp"
-#include "Server.hpp"
 
 User::User(SOCKET Socket, std::string IP, Server* _server) {
 	socket = Socket;
@@ -37,12 +36,11 @@ void User::Receive() {
 }
 
 void User::SetUserInfo(std::string msg) {
-	Helper help;
 
-	if (!help.StringStartsWith(msg, "userInfo")) {
+	if (!Helper::StringStartsWith(msg, "userInfo")) {
 		closesocket(socket);
 	}
-	else if (help.StringStartsWith(msg, "userInfo")) {
+	else if (Helper::StringStartsWith(msg, "userInfo")) {
 		for (int i = 9; i < msg.length(); i++) {
 			msg[i - 9] = msg[i];
 			msg[i] = ' ';
