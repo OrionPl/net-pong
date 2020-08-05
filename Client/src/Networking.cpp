@@ -4,9 +4,10 @@
 
 #include "Networking.hpp"
 
-Networking::Networking(Paddles* _paddles)
+Networking::Networking(Paddles* _paddles, Ball* _ball)
 {
 	paddles = _paddles;
+	ball = _ball;
 	InitializeWinsock();
 }
 
@@ -113,7 +114,7 @@ void Networking::HandleQuery(std::string msg)
 			msg_data.push_back(std::stoi(token));
 		}
 		paddles->SetPaddles(msg_data[0], msg_data[1], msg_data[2], msg_data[3]);
-
+		ball->SetPosition(msg_data[4], msg_data[5]);
 	}
 	else if (help.StringStartsWith(msg, "msgfrom"))
 	{
