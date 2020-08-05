@@ -35,15 +35,12 @@ void Networking::InitializeWinsock()
 
 void Networking::Connect(std::string IP, int Port, std::string Nick)
 {
-
 	ip = IP;
 	port = Port;
     nick = Nick;
 
 	try {
 		Send("userInfo " + nick);
-		receive_thread = std::thread(&Networking::Receive, this);
-		receive_thread.detach();
 
 		sockaddr_in server;
 
@@ -51,8 +48,16 @@ void Networking::Connect(std::string IP, int Port, std::string Nick)
 		server.sin_family = AF_INET;
 		server.sin_port = htons(port);
 
-		if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0)
-			PRINT "SHIT! Could not connect to server! " << WSAGetLastError() << std::endl;
+		if (connect(Socket , (struct sockaddr *)&server , sizeof(server)) < 0) {
+			SDL_Log("SHIT! Could not connect to server! %i\n", WSAGetLastError());
+		}
+		else {
+			SDL_Log("ALL GOOD\n");
+		}
+
+		receive_thread = std::thread(&Networking::Receive, this);
+		receive_thread.detach();
+
 	}
 	catch (std::string error) {
 		PRINT "Error when connecting to server: " + error + "\n";
