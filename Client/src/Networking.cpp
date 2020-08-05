@@ -41,7 +41,7 @@ void Networking::Connect(std::string IP, int Port, std::string Nick)
     nick = Nick;
 
 	try {
-		Send("userInfo " + nick);
+		//Send("userInfo " + nick);
 
 		sockaddr_in server;
 
@@ -58,7 +58,7 @@ void Networking::Connect(std::string IP, int Port, std::string Nick)
 
 		receive_thread = std::thread(&Networking::Receive, this);
 		receive_thread.detach();
-
+		Send("userInfo " + nick);
 	}
 	catch (std::string error) {
 		PRINT "Error when connecting to server: " + error + "\n";
