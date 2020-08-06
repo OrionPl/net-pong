@@ -23,9 +23,11 @@ int main(int argc, char* argv[]) {
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
 
-    bool connected_to_server = false;
+    bool connected_to_server = true;
     Networking net(&paddles);
-    if (connected_to_server) net.Connect("94.172.188.195", 55555, "orion1");
+    if (connected_to_server) {
+        net.Connect("127.0.0.1", 55555, "orion1");
+    }
 
     SDL_Event event;
     const Uint8* keys_down = SDL_GetKeyboardState(NULL);
