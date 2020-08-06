@@ -38,6 +38,8 @@ void User::Receive() {
 void User::SetUserInfo(std::string msg) {
 
 	if (!Helper::StringStartsWith(msg, "userInfo")) {
+		if (server->settings->can["log_on_disconnect"])
+			PRINT "Kicking " + ip + " for not giving info about their client\n" + msg;
 		closesocket(socket);
 	}
 	else if (Helper::StringStartsWith(msg, "userInfo")) {

@@ -15,11 +15,12 @@
 #include "Utilities/Print.hpp"
 
 #include "Paddles.hpp"
+#include "Ball.hpp"
 
 class Networking
 {
 public:
-	Networking(Paddles* _paddles);
+	Networking(Paddles* _paddles, Ball* _ball);
 	~Networking();
 
 	void Connect(std::string IP, int Port, std::string Nick);
@@ -41,5 +42,6 @@ private:
 
 
 	Paddles* paddles;
+	Ball* ball;
 };
 #endif

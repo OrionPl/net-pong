@@ -19,15 +19,13 @@ int main(int argc, char* argv[]) {
     TTF_Init();
 
     Window window;
-    Ball ball(window.GetWindowLength());
+    Ball ball;
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
 
     bool connected_to_server = true;
-    Networking net(&paddles);
-    if (connected_to_server) {
-        net.Connect("127.0.0.1", 55555, "orion1");
-    }
+    Networking net(&paddles, &ball);
+    if (connected_to_server) net.Connect("127.0.0.1", 55555, "orion1");
 
     SDL_Event event;
     const Uint8* keys_down = SDL_GetKeyboardState(NULL);
