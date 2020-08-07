@@ -1,9 +1,7 @@
 bin/*
 main.exe
-command.sh
-command_o.sh
-Client/command_o.bat
-Server/command_o.bat
 Server/.vscode/
 Client/.vscode/
-.vscode
+/.vscode
+*.sh
+*.bat
