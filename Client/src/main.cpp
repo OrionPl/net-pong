@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "Window.hpp"
+#include "Text.hpp"
 #include "Ball.hpp"
 #include "Paddles.hpp"
 #include "Score.hpp"
@@ -17,13 +18,14 @@
 
 int main(int argc, char* argv[]) {
     TTF_Init();
+    Text::LoadFont();
 
     Window window;
     Ball ball;
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer());
 
-    bool connected_to_server = true;
+    bool connected_to_server = false;
     Networking net(&paddles, &ball);
     if (connected_to_server) net.Connect("127.0.0.1", 55555, "orion1");
 
@@ -68,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         // DRAW
 
-        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 0);
         SDL_RenderClear(window.GetRenderer());
         SDL_SetRenderDrawColor(window.GetRenderer(), 255, 255, 255, 255);
 
@@ -80,6 +82,8 @@ int main(int argc, char* argv[]) {
     }
 
     window.Shutdown();
+    Text::DestroyFont();
     score.DestroyTextures();
+    TTF_Quit();
     return 0;
 }

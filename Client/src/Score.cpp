@@ -1,40 +1,20 @@
 #include "Score.hpp"
 
 Score::Score(SDL_Renderer* renderer) {
+    m_renderer = renderer;
 
-    m_font = TTF_OpenFont("assets/font.ttf", 15);
-    if (!m_font)
-        SDL_Log(TTF_GetError());
-
-    m_score_1 = 0;
-    m_score_2 = 0;
+    m_score_1 = m_score_2 = -1;
+    p1();
+    p2();
 
     m_score_1_rect.x = 150;
     m_score_1_rect.y = 150;
     m_score_2_rect.x = 50;
     m_score_2_rect.y = 50;
 
-    m_color_white;
-    m_color_white.r = m_color_white.g = m_color_white.b = m_color_white.a = 255;
 
-    m_renderer = renderer;
-	//Render text surface
-	SDL_Surface* score1 = TTF_RenderText_Solid(m_font, "0", m_color_white);
-    SDL_Surface* score2 = TTF_RenderText_Solid(m_font, "0", m_color_white);
-
-    m_score_1_rect.w = score1->w;
-    m_score_1_rect.h = score1->h;
-    m_score_2_rect.w = score2->w;
-    m_score_2_rect.h = score2->h;
-
-
-    //Create texture from surface pixels
-    m_texture_1 = SDL_CreateTextureFromSurface(m_renderer, score1);
-    m_texture_2 = SDL_CreateTextureFromSurface(m_renderer, score2);
-    //Get rid of old surface
-    SDL_FreeSurface(score1);
-    SDL_FreeSurface(score2);
-
+    SDL_QueryTexture(m_texture_1, NULL, NULL, &m_score_1_rect.w, &m_score_1_rect.h);
+    SDL_QueryTexture(m_texture_1, NULL, NULL, &m_score_2_rect.w, &m_score_2_rect.h);
 }
 
 void Score::Draw() {
@@ -44,18 +24,12 @@ void Score::Draw() {
 
 void Score::p1() {
     m_score_1++;
-
-    SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_1).c_str(), m_color_white);
-    m_texture_1 = SDL_CreateTextureFromSurface(m_renderer, surface);
-    SDL_FreeSurface(surface);
+    m_texture_1 = Text::CreateTexture(m_renderer, std::to_string(m_score_1));
 }
 
 void Score::p2() {
     m_score_2++;
-
-    SDL_Surface* surface = TTF_RenderText_Solid(m_font, std::to_string(m_score_2).c_str(), m_color_white);
-    m_texture_2 = SDL_CreateTextureFromSurface(m_renderer, surface);
-    SDL_FreeSurface(surface);
+    m_texture_2 = Text::CreateTexture(m_renderer, std::to_string(m_score_2));
 }
 
 void Score::DestroyTextures() {

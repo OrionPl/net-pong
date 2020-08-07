@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include <String>
+#include "Text.hpp"
 
 class Score {
 public:
@@ -20,6 +20,4 @@ private:
     SDL_Rect m_score_2_rect;
     int m_score_1;
     int m_score_2;
-    TTF_Font* m_font;
-    SDL_Color m_color_white;
 };
