@@ -7,13 +7,15 @@
 
 class Score {
 public:
-    Score(SDL_Renderer* renderer);
+    Score(SDL_Renderer* renderer, int _window_length);
     void Draw();
     void p1();
     void p2();
     void DestroyTextures();
 private:
     SDL_Renderer* m_renderer;
+    int window_length;
+
     SDL_Texture* m_texture_1;
     SDL_Texture* m_texture_2;
     SDL_Rect m_score_1_rect;

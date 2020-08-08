@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     Window window;
     Ball ball;
     Paddles paddles(window.GetWindowLength());
-    Score score(window.GetRenderer());
+    Score score(window.GetRenderer(), window.GetWindowLength());
 
     bool connected_to_server = false;
     Networking net(&paddles, &ball);

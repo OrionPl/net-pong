@@ -1,20 +1,20 @@
 #include "Score.hpp"
 
-Score::Score(SDL_Renderer* renderer) {
+Score::Score(SDL_Renderer* renderer, int _window_length) {
     m_renderer = renderer;
+    window_length = _window_length;
 
     m_score_1 = m_score_2 = -1;
     p1();
     p2();
 
-    m_score_1_rect.x = 150;
-    m_score_1_rect.y = 150;
-    m_score_2_rect.x = 50;
-    m_score_2_rect.y = 50;
-
-
     SDL_QueryTexture(m_texture_1, NULL, NULL, &m_score_1_rect.w, &m_score_1_rect.h);
     SDL_QueryTexture(m_texture_1, NULL, NULL, &m_score_2_rect.w, &m_score_2_rect.h);
+
+    m_score_1_rect.x = window_length / 4 - m_score_1_rect.w / 2;
+    m_score_1_rect.y = window_length / 4 - m_score_1_rect.h / 2;
+    m_score_2_rect.x = window_length / 4 * 3 - m_score_2_rect.w / 2;
+    m_score_2_rect.y = window_length / 4 - m_score_2_rect.h / 2;
 }
 
 void Score::Draw() {
