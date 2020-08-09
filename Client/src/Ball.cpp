@@ -6,8 +6,10 @@ Ball::Ball() {
     // m_yv = m_initial_yv = 100;
     // m_x = m_rect.x = 150;
     // m_y = m_rect.y = 50;
-    // m_rect.w = 50;
-    // m_rect.h = 50;
+    m_rect.x = 150;
+    m_rect.y = 50;
+    m_rect.w = 50;
+    m_rect.h = 50;
 }
 
 void Ball::Draw(SDL_Renderer* renderer) {

@@ -31,19 +31,15 @@ void User::Receive_General() {
 }
 
 void User::Receive_UserInfo() {
-	while (true) {
+	char buffer[4096];
+	int bytesReceived = recv(socket, buffer, 4096, 0);
 
-		char buffer[4096];
-		int bytesReceived = recv(socket, buffer, 4096, 0);
-
-		if (bytesReceived > 0) {
-			SetUserInfo(std::string(buffer, 0, bytesReceived));
-		}
-		else {
-			server->GetLogic()->RemovePlayer(player_index);
-			server->OnDisconnect(this);
-			break;
-		}
+	if (bytesReceived > 0) {
+		SetUserInfo(std::string(buffer, 0, bytesReceived));
+	}
+	else {
+		server->GetLogic()->RemovePlayer(player_index);
+		server->OnDisconnect(this);
 	}
 }
 
@@ -69,11 +65,16 @@ void User::SetUserInfo(std::string msg) {
 		userInfoDone = true;
 		server->AddUser(this);
 
+		server->GetLogic()->SetPlayerName(player_index, name);
+
 		std::vector<User*> users = *(server->GetUsers());
 
 		for (int i = 0; i < users.size(); i++) {
 			Send("con " + users[i]->GetName());
 		}
+
+		if (player_index == 1)
+			server->GetLogic()->UnpauseGame();
 
 		Receive_General();
 	}

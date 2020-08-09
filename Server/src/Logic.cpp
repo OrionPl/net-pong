@@ -3,13 +3,15 @@
 Logic::Logic() {
     window_length = 500;
 
-    ball.x = ball.y = ball.l = ball.xv = ball.yv = 100;
+    ball.x = ball.y = ball.l = 100;
+    ball.xv = ball.yv = 1000;
 
     paddle_width = 30;
     paddle_height = 50;
     paddle_vy = 1000;
     default_offscreen_v = -500;
     p1.x = p1.y = p2.x = p2.y = default_offscreen_v;
+    game_paused = true;
 }
 
 int Logic::NewPlayer_GetIndex() {
@@ -26,25 +28,37 @@ int Logic::NewPlayer_GetIndex() {
     return -1; // if this is true, that means we have only set the first player, otherwise we have set both players. The bools evaluate to the index because we only ever get 2 players at once.
 }
 
+void Logic::SetPlayerName(int p_index, std::string name) {
+    if (p_index) { // if the index is 1
+        p2.name = name;
+    } else {
+        p1.name = name;
+    }
+}
+
 void Logic::RemovePlayer(int p_index) {
     if (p_index) { // if the index is 1
         p2.x = p2.y = default_offscreen_v;
+        p2.name = "";
     } else {
         p1.x = p1.y = default_offscreen_v;
+        p1.name = "";
     }
 }
 
 void Logic::Update() {
     clock.tick();
 
-    UpdateBall();
-    UpdatePaddles();
-
+    if (!game_paused) {
+        UpdateBall();
+        UpdatePaddles();
+    }
 
     network_msg = "$" + std::to_string(p1.x) + "," + std::to_string(p1.y) + "," + std::to_string(p2.x) + "," + std::to_string(p2.y) + "," + std::to_string(ball.x) + "," + std::to_string(ball.y);
 }
-
+#include "Utilities/Print.h"
 void Logic::UpdateBall() {
+    PRINT std::to_string(p1.x) + "," + std::to_string(p1.y) + "," + std::to_string(p2.x) + "," + std::to_string(p2.y) + "," + std::to_string(ball.x) + "," + std::to_string(ball.y) + "," + std::to_string(game_paused) + "," + std::to_string(clock.dt) + "\n";
     ball.x += ball.xv * clock.dt;
     ball.y += ball.yv * clock.dt;
     if (ball.y < 0) {
@@ -79,6 +93,14 @@ void Logic::UpdatePaddles() {
 void Logic::TakeInput(int player, std::string input) {
     if (player) p2.direction = std::stoi(input); // if player index is 1, then it means player 2, because we have player indexes [0, 1]
     else p1.direction = std::stoi(input);
+}
+
+void Logic::PauseGame() {
+    game_paused = true;
+}
+
+void Logic::UnpauseGame() {
+    game_paused = false; // <<------------------------ TODO COUNTDOWN / BUTTON TO START GAME
 }
 
 std::string Logic::GetNetworkMsg() { return network_msg; }
