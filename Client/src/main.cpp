@@ -9,6 +9,7 @@
 
 #include "Window.hpp"
 #include "Text.hpp"
+#include "Menu.hpp"
 #include "Ball.hpp"
 #include "Paddles.hpp"
 #include "Score.hpp"
@@ -21,6 +22,7 @@ int main(int argc, char* argv[]) {
     Text::LoadFont();
 
     Window window;
+    Menu menu(window.GetRenderer());
     Ball ball;
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer(), window.GetWindowLength());
@@ -45,6 +47,9 @@ int main(int argc, char* argv[]) {
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_ESCAPE)
                         quit = true;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    menu.MousePressed(event.button.x, event.button.y);
                     break;
                 default: break;
             }
@@ -74,6 +79,7 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(window.GetRenderer());
         SDL_SetRenderDrawColor(window.GetRenderer(), 255, 255, 255, 255);
 
+        menu.Draw();
         ball.Draw(window.GetRenderer());
         paddles.Draw(window.GetRenderer());
         score.Draw();
