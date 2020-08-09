@@ -29,10 +29,12 @@ private:
 	SOCKET socket;
 	Server* server;
 
-	void Receive();
+	void Receive_General();
+	void Receive_UserInfo();
 	void HandleQuery(std::string* query);
 	void SetUserInfo(std::string msg);
-	void SendFile(std::string dir, std::string filename);
+
+	std::thread receive_thread;
 
 	bool userInfoDone = false;
 	int player_index;

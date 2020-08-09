@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
     Paddles paddles(window.GetWindowLength());
     Score score(window.GetRenderer(), window.GetWindowLength());
 
-    bool connected_to_server = false;
+    bool connected_to_server = true;
     Networking net(&paddles, &ball);
     if (connected_to_server) net.Connect("127.0.0.1", 55555, "orion1");
 

@@ -4,44 +4,37 @@
 
 #include "Networking.hpp"
 
-Networking::Networking(Paddles* _paddles, Ball* _ball)
-{
+Networking::Networking(Paddles* _paddles, Ball* _ball) {
 	paddles = _paddles;
 	ball = _ball;
 	InitializeWinsock();
 }
 
-Networking::~Networking()
-{
+Networking::~Networking() {
 	closesocket(Socket);
 	WSACleanup();
 }
 
-void Networking::InitializeWinsock()
-{
+void Networking::InitializeWinsock() {
 	WSADATA wsData;
 	WORD ver = MAKEWORD(2, 2);
 	int wsok = WSAStartup(ver, &wsData);
 
-	if (wsok != 0)
-	{
+	if (wsok != 0) {
 		PRINT "SHIT! Can't Initialize winsock!\n";
 	}
 
-	if((Socket = socket(AF_INET , SOCK_STREAM , 0 )) == INVALID_SOCKET)
-	{
+	if((Socket = socket(AF_INET , SOCK_STREAM , 0 )) == INVALID_SOCKET) {
 		printf("Could not create socket : %d" , WSAGetLastError());
 	}
 }
 
-void Networking::Connect(std::string IP, int Port, std::string Nick)
-{
+void Networking::Connect(std::string IP, int Port, std::string Nick) {
 	ip = IP;
 	port = Port;
     nick = Nick;
 
 	try {
-		//Send("userInfo " + nick);
 
 		sockaddr_in server;
 
@@ -65,40 +58,32 @@ void Networking::Connect(std::string IP, int Port, std::string Nick)
 	}
 }
 
-void Networking::Send(std::string message)
-{
+void Networking::Send(std::string message) {
 	bool res = send(Socket, message.c_str(), message.size() + 1, 0);
 
 	if (res == SOCKET_ERROR)
 		Disconnect();
 }
 
-void Networking::Receive()
-{
-	while (true)
-	{
+void Networking::Receive() {
+	while (true) {
 		char buffer[4096];
 
 		int bytesReceived = recv(Socket, buffer, 4096, 0);
 
-		if (bytesReceived > 0)
-		{
+		if (bytesReceived > 0) {
 			std::string received = std::string(buffer, 0, bytesReceived);
 			HandleQuery(received);
 		}
-		else
-		{
+		else {
 			Disconnect();
 			break;
 		}
 	}
 }
 
-void Networking::HandleQuery(std::string msg)
-{
+void Networking::HandleQuery(std::string msg) {
 	Helper help;
-
-	SDL_Log(msg.c_str());
 
 	if (msg[0] == '$') { // game logic prefix is $
 		msg.erase(0, 1); // remove the $ prefix when viewing data
@@ -116,8 +101,7 @@ void Networking::HandleQuery(std::string msg)
 		paddles->SetPaddles(msg_data[0], msg_data[1], msg_data[2], msg_data[3]);
 		ball->SetPosition(msg_data[4], msg_data[5]);
 	}
-	else if (help.StringStartsWith(msg, "msgfrom"))
-	{
+	else if (help.StringStartsWith(msg, "msgfrom")) {
 		msg = msg.substr(0, 8);
 		std::string name = help.GetStringUntil(msg, "###");
 		std::string mes = msg.substr(0, name.length() + 3);
@@ -125,26 +109,22 @@ void Networking::HandleQuery(std::string msg)
 		//if (name != nick)
 		PRINT name + "> " + mes + "\n";
 	}
-	else if (help.StringStartsWith(msg, "con"))
-	{
+	else if (help.StringStartsWith(msg, "con")) {
 		msg = msg.substr(0, 4);
 
 		PRINT msg + " connected!\n";
 	}
-	else if (help.StringStartsWith(msg, "dcon"))
-	{
+	else if (help.StringStartsWith(msg, "dcon")) {
 		msg = msg.substr(0, 5);
 
 		PRINT msg << " disconnected!\n";
 	}
-	else
-	{
+	else {
 		PRINT "SERVER> " + msg + "\n";
 	}
 }
 
-void Networking::Disconnect()
-{
+void Networking::Disconnect() {
 	closesocket(Socket);
 	WSACleanup();
 }

@@ -7,25 +7,37 @@ User::User(SOCKET Socket, std::string IP, Server* _server) {
 	userInfoDone = false;
 	player_index = server->GetLogic()->NewPlayer_GetIndex();
 
-	std::thread receiveThread(&User::Receive, this);
-	receiveThread.detach();
+	// receive thread starts in receive user info,
+	// then runs SetUserInfo. if SetUserInfo runs successfully, it
+	// runs Receive_General
+	receive_thread = std::thread(&User::Receive_UserInfo, this);
+	receive_thread.detach();
 }
 
-void User::Receive() {
+void User::Receive_General() {
 	while (true) {
 		char buffer[4096];
-
 		int bytesReceived = recv(socket, buffer, 4096, 0);
 
 		if (bytesReceived > 0) {
-			std::string msg = std::string(buffer, 0, bytesReceived);
+			server->GetLogic()->TakeInput(player_index, std::string(buffer, 0, bytesReceived));
+		}
+		else {
+			server->GetLogic()->RemovePlayer(player_index);
+			server->OnDisconnect(this);
+			break;
+		}
+	}
+}
 
-			if (!userInfoDone) {
-				SetUserInfo(msg);
-			}
-			else {
-				server->GetLogic()->TakeInput(player_index, msg);
-			}
+void User::Receive_UserInfo() {
+	while (true) {
+
+		char buffer[4096];
+		int bytesReceived = recv(socket, buffer, 4096, 0);
+
+		if (bytesReceived > 0) {
+			SetUserInfo(std::string(buffer, 0, bytesReceived));
 		}
 		else {
 			server->GetLogic()->RemovePlayer(player_index);
@@ -62,26 +74,9 @@ void User::SetUserInfo(std::string msg) {
 		for (int i = 0; i < users.size(); i++) {
 			Send("con " + users[i]->GetName());
 		}
+
+		Receive_General();
 	}
-}
-
-void User::SendFile(std::string dir, std::string filename) {
-	std::ifstream file(dir);
-	std::string line;
-
-	if (!file) return;
-
-
-	Send("FILENAME " + filename);
-
-	while (std::getline(file, line)) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(5));
-		Send(line);
-	}
-
-	file.close();
-
-	Send("#EOF");
 }
 
 void User::Send(std::string text) {

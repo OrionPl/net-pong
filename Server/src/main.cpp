@@ -17,7 +17,8 @@ int main(int argc, char*[]) {
     LoadSettings(&settings);
 
     bool run = true;
-    std::thread inputThread(&HandleInput, &settings, &run);
+    std::thread input_thread(&HandleInput, &settings, &run);
+    input_thread.detach();
 
     Logic logic;
     Networking net(&settings, &logic);
