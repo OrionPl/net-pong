@@ -16,16 +16,10 @@
 
 #include "Networking.hpp"
 
-
-int main(int argc, char* argv[]) {
-    TTF_Init();
-    Text::LoadFont();
-
-    Window window;
-    Menu menu(window.GetRenderer());
+void GameLoop(Window* window) {
     Ball ball;
-    Paddles paddles(window.GetWindowLength());
-    Score score(window.GetRenderer(), window.GetWindowLength());
+    Paddles paddles(window->GetWindowLength());
+    Score score(window->GetRenderer(), window->GetWindowLength());
 
     bool connected_to_server = true;
     Networking net(&paddles, &ball);
@@ -47,9 +41,6 @@ int main(int argc, char* argv[]) {
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_ESCAPE)
                         quit = true;
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    menu.MousePressed(event.button.x, event.button.y);
                     break;
                 default: break;
             }
@@ -75,21 +66,70 @@ int main(int argc, char* argv[]) {
 
         // DRAW
 
-        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 0, 0);
-        SDL_RenderClear(window.GetRenderer());
-        SDL_SetRenderDrawColor(window.GetRenderer(), 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(window->GetRenderer(), 0, 0, 0, 0);
+        SDL_RenderClear(window->GetRenderer());
+        SDL_SetRenderDrawColor(window->GetRenderer(), 255, 255, 255, 255);
 
-        menu.Draw();
-        ball.Draw(window.GetRenderer());
-        paddles.Draw(window.GetRenderer());
+        ball.Draw(window->GetRenderer());
+        paddles.Draw(window->GetRenderer());
         score.Draw();
 
-        SDL_RenderPresent(window.GetRenderer());
+        SDL_RenderPresent(window->GetRenderer());
     }
+
+    score.DestroyTextures(); //TODO Move to a better location so the program doesn't destroy textures after game loop is over. (After finished game go to menu)
+}
+
+void MenuLoop(Window* window) {
+    Menu menu(window->GetRenderer());
+
+    SDL_Event event;
+    const Uint8* keys_down = SDL_GetKeyboardState(NULL);
+
+    bool quit = false;
+    while (!quit) {
+
+        // UPDATE
+
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    quit = true;
+                    break;
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_ESCAPE)
+                        quit = true;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    menu.MousePressed(event.button.x, event.button.y);
+                    break;
+                default: break;
+            }
+        }
+
+
+        // DRAW
+        SDL_SetRenderDrawColor(window->GetRenderer(), 0, 0, 0, 0);
+        SDL_RenderClear(window->GetRenderer());
+        SDL_SetRenderDrawColor(window->GetRenderer(), 255, 255, 255, 255);
+
+        menu.Draw();
+
+        SDL_RenderPresent(window->GetRenderer());
+    }
+}
+
+int main(int argc, char* argv[]) {
+    TTF_Init();
+    Text::LoadFont();
+
+    Window window;
+    
+    MenuLoop(&window);
+    GameLoop(&window);
 
     window.Shutdown();
     Text::DestroyFont();
-    score.DestroyTextures();
     TTF_Quit();
     return 0;
 }
