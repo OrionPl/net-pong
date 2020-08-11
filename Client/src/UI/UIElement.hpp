@@ -1,7 +1,10 @@
 #pragma once
 
-#include <SDL/SDL.h>
-#include< <string>
+#ifndef UIELEMENT_H_
+#define UIELEMENT_H_
+
+#include <SDL2/SDL.h>
+#include <string>
 
 #include "UI.hpp"
 
@@ -20,8 +23,9 @@
 #define UI_BACKGROUND_RECT_UNFILLED 1
 #define UI_BACKGROUND_RECT_FILLED 2
 
-// TODO Make it available to make a colored rectangle as background
+class UI;
 
+// TODO Make it available to make a colored rectangle as background
 class UIElement {
 public:
     UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui);
@@ -36,10 +40,10 @@ public:
     bool GetActive() { return active; };
 
     void SetPosition(int x, int y) { xPos = x; yPos = y; };
-    int* GetPosition() { int[2] a; a[0] = xPos; a[1] = yPos; return a; };
+    int* GetPosition() { int a[2]; a[0] = xPos; a[1] = yPos; return a; };
 
     void SetSize(int x, int y) { xSize = x; ySize = y; };
-    int* GetSize() { int[2] a; a[0] = xSize; a[1] = ySize; return a; };
+    int* GetSize() { int a[2]; a[0] = xSize; a[1] = ySize; return a; };
 
     void SetAnchor(int anchor) { uiAnchor = anchor; };
     int GetAnchor() { return uiAnchor; };
@@ -51,7 +55,7 @@ public:
     bool GetFilled() { return filled; };
 
     void SetColor(SDL_Color _color) { color = _color; };
-    SDL_Color GetColor() { color = _color; };
+    SDL_Color GetColor() { return color; };
 
     void SetBackgroundType(int type) { backgroundType = type; };
     int GetBackgroundType() { return backgroundType; };
@@ -69,4 +73,5 @@ private:
     int xPos, yPos;
     int xSize, ySize;
     int uiAnchor;
-}
+};
+#endif
