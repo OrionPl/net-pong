@@ -3,7 +3,10 @@
 Menu::Menu(SDL_Renderer* _renderer) {
     renderer = _renderer;
 
+    //Text text("assets/font.ttf", 35); // TODO Move to main.cpp (or InitializeAssets()) and name pixel_font or main_font or menu_font
+
     SDL_Texture* title_texture = Text::CreateTexture(renderer, "Net Pong");
+    //SDL_Texture* title_texture = text.CreateTexture(renderer, "Net Pong");
     SDL_Rect title_rect;
     SDL_QueryTexture(title_texture, NULL, NULL, & title_rect.w, & title_rect.h);
     title_rect.x = title_rect.y = 15;
@@ -14,6 +17,7 @@ Menu::Menu(SDL_Renderer* _renderer) {
 
 
     SDL_Texture* connect_texture = Text::CreateTexture(renderer, "Connect");
+    //SDL_Texture* connect_texture = text.CreateTexture(renderer, "Connect");
     SDL_Rect connect_rect;
     SDL_QueryTexture(connect_texture, NULL, NULL, & connect_rect.w, & connect_rect.h);
     connect_rect.x = 15;
