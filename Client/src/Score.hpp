@@ -3,23 +3,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "GlobalWindowData.hpp"
 #include "Text.hpp"
 
 class Score {
 public:
-    Score(SDL_Renderer* renderer, int _window_length);
+    Score();
     void Draw();
     void p1();
     void p2();
     void DestroyTextures();
 private:
-    SDL_Renderer* m_renderer;
-    int window_length;
 
-    SDL_Texture* m_texture_1;
-    SDL_Texture* m_texture_2;
-    SDL_Rect m_score_1_rect;
-    SDL_Rect m_score_2_rect;
-    int m_score_1;
-    int m_score_2;
+    SDL_Texture* texture_1;
+    SDL_Texture* texture_2;
+    SDL_Rect score_1_rect;
+    SDL_Rect score_2_rect;
+    int score_1;
+    int score_2;
 };

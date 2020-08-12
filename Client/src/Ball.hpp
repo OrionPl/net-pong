@@ -3,10 +3,12 @@
 #include <SDL2/SDL.h>
 //#include "Score.hpp"
 
+#include "GlobalWindowData.hpp"
+
 class Ball {
 public:
     Ball();
-    void Draw(SDL_Renderer* renderer);
+    void Draw();
     void SetPosition(float x, float y);
     //void Update(double dt, Score* score);
     //void ReactToPaddle(float x, float y, int w, int h);
@@ -20,5 +22,4 @@ private:
     int m_initial_yv;
     float m_xv;
     float m_yv;
-    int m_window_length;
 };

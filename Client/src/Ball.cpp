@@ -12,8 +12,8 @@ Ball::Ball() {
     m_rect.h = 50;
 }
 
-void Ball::Draw(SDL_Renderer* renderer) {
-    SDL_RenderFillRect(renderer, &m_rect);
+void Ball::Draw() {
+    SDL_RenderFillRect(global_window_data.rdr, &m_rect);
 }
 
 void Ball::SetPosition(float x, float y) {

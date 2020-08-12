@@ -3,15 +3,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "GlobalWindowData.hpp"
+
 class Window {
 public:
     Window();
-    SDL_Renderer* GetRenderer();
-    int GetWindowLength();
+    void Clear();
     void Shutdown();
 private:
-    int m_window_length;
-    SDL_Window* m_window;
-    SDL_Renderer* m_renderer;
-    SDL_Surface* m_icon;
+    SDL_Window* window;
+    SDL_Surface* icon;
 };
