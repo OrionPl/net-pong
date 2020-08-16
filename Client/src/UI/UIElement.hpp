@@ -6,8 +6,6 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-#include "UI.hpp"
-
 // TODO Anchor ui elements to different parts of the window (also relative to that part of the window)
 #define ANCHOR_TOPLEFT 0
 #define ANCHOR_TOPMIDDLE 1
@@ -23,13 +21,11 @@
 #define UI_BACKGROUND_RECT_UNFILLED 1
 #define UI_BACKGROUND_RECT_FILLED 2
 
-class UI;
-
 // TODO Make it available to make a colored rectangle as background
 class UIElement {
 public:
-    UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui);
-    UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, UI* _ui);
+    UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer);
+    UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, SDL_Renderer* _renderer);
 
     void Draw();
 
@@ -60,10 +56,10 @@ public:
     void SetBackgroundType(int type) { backgroundType = type; };
     int GetBackgroundType() { return backgroundType; };
 
-private:
+protected:
     std::string name;
     bool active;
-    UI* ui;
+    SDL_Renderer* renderer;
     SDL_Texture* texture;
     bool filled;
     SDL_Color color;
