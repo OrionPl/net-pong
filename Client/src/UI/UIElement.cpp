@@ -23,7 +23,7 @@ UIElement::UIElement(std::string _name, bool _active,  int _uiAnchor, int _xPos,
     xSize = _xSize;
     ySize = _ySize;
     filled = _filled;
-    color = _color;
+    color = _color; //TODO Color of the background (rect color) (NOT GLOBAL COLOR)
     ui = _ui;
 
     if (filled)

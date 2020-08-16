@@ -23,8 +23,6 @@
 #define UI_BACKGROUND_RECT_UNFILLED 1
 #define UI_BACKGROUND_RECT_FILLED 2
 
-class UI;
-
 // TODO Make it available to make a colored rectangle as background
 class UIElement {
 public:
