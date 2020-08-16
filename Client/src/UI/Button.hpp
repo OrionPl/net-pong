@@ -5,25 +5,29 @@
 
 #include <SDL2/SDL.h>
 
-#include "UI.hpp"
+#include "UIElement.hpp"
+#include "Text.hpp"
 
 class UIElement;
 
 class Button : public UIElement {
 public:
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui); // PosX and PosY are both positions of the top left corner of the button
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui, void (*_eventHandler));
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui, void (*_eventHandler), std::string text);
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, UI* _ui, std::string text);
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer); // PosX and PosY are both positions of the top left corner of the button
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer, void (*_eventHandler));
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer, void (*_eventHandler), std::string _text, Text* text);
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer, std::string _text, Text* text);
 
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, UI* _ui); // PosX and PosY are both positions of the top left corner of the button
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, UI* _ui, void (*_eventHandler));
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, UI* _ui, void (*_eventHandler), std::string text);
-    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, UI* _ui, std::string text);
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, SDL_Renderer* _renderer); // PosX and PosY are both positions of the top left corner of the button
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, SDL_Renderer* _renderer, void (*_eventHandler));
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, SDL_Renderer* _renderer, void (*_eventHandler), std::string _text, Text* text);
+    Button(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, bool _filled, SDL_Color _color, SDL_Renderer* _renderer, std::string _text, Text* text);
 
+    void Draw();
     void Click(int mousePosX, int mousePosY); // Check if the mouse clicked the button
     void SetHandler(void (*_eventHandler)) { eventHandler = _eventHandler; }; // Set the function you want to handle the click of the button
+    void SetText(std::string _text, Text* text);
 private:
     void (*eventHandler);
+    SDL_Texture* textTexture;
 };
 #endif
