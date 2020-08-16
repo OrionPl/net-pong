@@ -90,5 +90,6 @@ int main(int argc, char* argv[]) {
     Text::DestroyFont();
     TTF_Quit();
     window.Shutdown();
+    SDL_Quit();
     return 0;
 }

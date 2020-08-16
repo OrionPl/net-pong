@@ -7,7 +7,6 @@ TTF_Font* Text::main_font;
 void Text::LoadFont() {
     main_font = TTF_OpenFont("assets/font.ttf", 35);
     if (!main_font) SDL_Log("can't load font");
-
 }
 
 void Text::DestroyFont() {

@@ -21,5 +21,4 @@ void Window::Shutdown() {
     SDL_FreeSurface(icon);
     SDL_DestroyRenderer(global_window_data.rdr);
     SDL_DestroyWindow(window);
-    SDL_Quit();
 }
