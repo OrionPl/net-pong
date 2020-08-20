@@ -7,10 +7,10 @@
 
 //TODO Change this class to Font and make Text a UIElement
 
-struct Text {
+struct Font {
 public:
-    Text(std::string fontDir, int fontSize, SDL_Color* _color);
-    ~Text();
+    Font(std::string fontDir, int fontSize, SDL_Color* _color);
+    ~Font();
 
     void ChangeFont(std::string fontDir, int fontSize);
     void SetColor(SDL_Color* _color) { color = _color; };

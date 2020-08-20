@@ -4,10 +4,10 @@ UI::UI(SDL_Renderer* _renderer) {
     renderer = _renderer;
 }
 
-// template<>
-// void UI::AddUIElement(Button* element) {
-//     buttons.push_back(element);
-// }
+template<>
+void UI::AddUIElement(Button* element) {
+    buttons.push_back(element);
+}
 
 // template<>
 // bool UI::RemoveUIElement(std::string name) {

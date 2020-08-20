@@ -7,9 +7,6 @@ class UI; // DO NOT REMOVE (Breaks all UI elements due to UI not being defined)
 
 #include <vector>
 #include <SDL2/SDL.h>
-
-#include "UIElement.hpp" // Not needed i guess?
-//#include "Text.hpp"
 #include "Button.hpp"
 
 //For different game states (Menu, In-Game) create different UI-s
@@ -30,6 +27,6 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    //std::vector<Button*> buttons;
+    std::vector<Button*> buttons;
 };
 #endif

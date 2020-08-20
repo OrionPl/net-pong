@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     //Score score;
 
     SDL_Color white = {255, 255, 255};
-    Text* txt = new Text("assets/font.ttf", 60, &white);
+    Font* txt = new Font("assets/font.ttf", 60, &white);
     Button btn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &BtnHandler, "asd", txt);
 
     // Menu menu;
