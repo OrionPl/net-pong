@@ -9,7 +9,7 @@
 
 struct Text {
 public:
-    Text(std::string fontDir, int fontSize);
+    Text(std::string fontDir, int fontSize, SDL_Color* _color);
     ~Text();
 
     void ChangeFont(std::string fontDir, int fontSize);

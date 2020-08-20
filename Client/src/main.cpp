@@ -9,23 +9,36 @@
 
 #include "Window.hpp"
 #include "GlobalWindowData.hpp"
-#include "Text.hpp"
-#include "Menu.hpp"
+//#include "Text.hpp"
+//#include "Menu.hpp"
 #include "Ball.hpp"
 #include "Paddles.hpp"
-#include "Score.hpp"
+//#include "Score.hpp"
 #include "Networking.hpp"
+#include "UI/UI.hpp"
 
 GlobalWindowData global_window_data = {500, 500, NULL};
 
+bool tru = false;
+
+void BtnHandler() {
+    PRINT "btn click\n";
+    tru = true;
+}
+
 int main(int argc, char* argv[]) {
     TTF_Init();
-    Text::LoadFont();
+    //Text::LoadFont();
 
     Window window;
     Ball ball;
     Paddles paddles;
-    Score score;
+    //Score score;
+
+    SDL_Color white = {255, 255, 255};
+    Text* txt = new Text("assets/font.ttf", 60, &white);
+    Button btn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &BtnHandler, "asd", txt);
+
     // Menu menu;
 
     bool connected_to_server = true;
@@ -51,6 +64,7 @@ int main(int argc, char* argv[]) {
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     //menu.MousePressed(event.button.x, event.button.y);
+                    btn.Click(event.button.x, event.button.y);
                     break;
                 default: break;
             }
@@ -79,15 +93,17 @@ int main(int argc, char* argv[]) {
         window.Clear();
 
         ball.Draw();
-        paddles.Draw();
-        score.Draw();
+        if (tru)
+            paddles.Draw();
+        //score.Draw();
+        btn.Draw();
         // menu.Draw();
 
         SDL_RenderPresent(global_window_data.rdr);
     }
 
-    score.DestroyTextures();
-    Text::DestroyFont();
+    //score.DestroyTextures();
+    //Text::DestroyFont();
     TTF_Quit();
     window.Shutdown();
     SDL_Quit();
