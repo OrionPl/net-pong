@@ -37,23 +37,23 @@ int main(int argc, char* argv[]) {
 
     // UI Initialization
 
-    UI* ui = new UI(global_window_data.rdr);
+    UI ui = UI(global_window_data.rdr);
 
     SDL_Color white = {255, 255, 255};
     SDL_Color black = {0, 0, 0};
-    
-    Font* fnt1 = new Font("assets/font.ttf", 60, &white);
-    Font* fnt2 = new Font("assets/font.ttf", 30, &black);
 
-    Button btn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &BtnHandler, "asd", fnt1);
-    Text txt("txt", true, 0, 120, 120, 160, 160, true, white, global_window_data.rdr, "txt", fnt2);
+    Font fnt1("assets/font.ttf", 60, & white);
+    Font fnt2("assets/font.ttf", 30, & black);
 
-    ui->AddUIElement<Button>(&btn);
-    ui->AddUIElement<Text>(&txt);
+    // Button btn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &BtnHandler, "asd", & fnt1);
+    Text title("txt", true, 0, 15, 15, 280, 160, false, white, global_window_data.rdr, "pong", & fnt1);
+
+    // ui.AddUIElement<Button>(&btn);
+    ui.AddUIElement<Text>(& title);
 
     // Menu menu;
 
-    bool connected_to_server = true;
+    bool connected_to_server = false;
     Networking net(&paddles, &ball);
     if (connected_to_server) net.Connect("127.0.0.1", 55555, "orion1");
 
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
                     break;
                 case SDL_MOUSEBUTTONDOWN:
                     //menu.MousePressed(event.button.x, event.button.y);
-                    btn.Click(event.button.x, event.button.y);
+                    // btn.Click(event.button.x, event.button.y);
                     break;
                 default: break;
             }
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
             paddles.Draw();
         //score.Draw();
         // menu.Draw();
-        ui->Draw();
+        ui.Draw();
 
         SDL_RenderPresent(global_window_data.rdr);
     }

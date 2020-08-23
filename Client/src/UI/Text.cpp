@@ -1,7 +1,7 @@
 #include "Text.hpp"
 
 Text::Text(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer) : UIElement(_name, _active, _uiAnchor, _xPos, _yPos, _xSize, _ySize, _texture, _renderer) {
-    
+
 }
 
 Text::Text(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos, int _xSize, int _ySize, SDL_Texture* _texture, SDL_Renderer* _renderer, std::string _text, Font* text) : UIElement(_name, _active, _uiAnchor, _xPos, _yPos, _xSize, _ySize, _texture, _renderer) {
