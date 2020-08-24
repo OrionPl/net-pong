@@ -29,7 +29,7 @@ void Networking::InitializeWinsock() {
 	}
 }
 
-void Networking::Connect(std::string IP, int Port, std::string Nick) {
+bool Networking::Connect(std::string IP, int Port, std::string Nick) {
 	ip = IP;
 	port = Port;
     nick = Nick;
@@ -52,9 +52,12 @@ void Networking::Connect(std::string IP, int Port, std::string Nick) {
 		receive_thread = std::thread(&Networking::Receive, this);
 		receive_thread.detach();
 		Send("userInfo " + nick);
+
+		return true;
 	}
 	catch (std::string error) {
 		PRINT "Error when connecting to server: " + error + "\n";
+		return false;
 	}
 }
 
@@ -126,5 +129,4 @@ void Networking::HandleQuery(std::string msg) {
 
 void Networking::Disconnect() {
 	closesocket(Socket);
-	WSACleanup();
 }

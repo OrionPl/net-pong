@@ -23,14 +23,14 @@ public:
 	Networking(Paddles* _paddles, Ball* _ball);
 	~Networking();
 
-	void Connect(std::string IP, int Port, std::string Nick);
+	bool Connect(std::string IP, int Port, std::string Nick);
 	void Send(std::string message);
 
+	void Disconnect();
 private:
 	void InitializeWinsock();
 	void Receive();
 	void HandleQuery(std::string msg);
-	void Disconnect();
 
 	std::thread receive_thread;
 
