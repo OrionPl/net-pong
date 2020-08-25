@@ -51,16 +51,16 @@ void MenuLoop() {
     SDL_Color white = {255, 255, 255};
     SDL_Color black = {0, 0, 0};
 
-    Font fnt1("assets/font.ttf", 60, & white);
-    Font fnt2("assets/font.ttf", 30, & black);
+    Font fnt1("assets/font.ttf", 18, & white);
+    Font fnt2("assets/font.ttf", 60, & white);
 
     //Menu ui elements
     menu_ui.AddUIElement<Text>(info_text);
 
-    Text title("txt", true, 0, 15, 15, 280, 160, false, white, global_window_data.rdr, "pong", & fnt1);
+    Text title("txt", true, 0, 15, 15, 280, 160, false, white, global_window_data.rdr, "pong", & fnt2);
     menu_ui.AddUIElement<Text>(& title);
 
-    Button connBtn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &ConnectToServer, "Connect", & fnt1);
+    Button connBtn("btn", true, 0, 15, 190, 160, 80, false, white, global_window_data.rdr, &ConnectToServer, "Connect", & fnt1);
     menu_ui.AddUIElement<Button>(&connBtn);
 
     SDL_Event event;
@@ -112,8 +112,8 @@ void GameLoop() {
     SDL_Color white = {255, 255, 255};
     SDL_Color black = {0, 0, 0};
 
-    Font fnt1("assets/font.ttf", 60, & white);
-    Font fnt2("assets/font.ttf", 30, & black);
+    Font fnt1("assets/font.ttf", 18, & white);
+    Font fnt2("assets/font.ttf", 30, & white);
 
     //Game ui elements
     game_ui.AddUIElement<Text>(info_text);

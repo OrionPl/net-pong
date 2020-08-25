@@ -68,6 +68,7 @@ protected:
     // Positions of top left corner, relative to anchor
     int xPos, yPos;
     int xSize, ySize;
+    int anchoredX, anchoredY;
     int uiAnchor;
 };
 #endif
