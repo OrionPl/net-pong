@@ -9,13 +9,13 @@
 
 #include "Window.hpp"
 #include "GlobalWindowData.hpp"
-//#include "Text.hpp"
-//#include "Menu.hpp"
+#include "Text.hpp"
+#include "Menu.hpp"
 #include "Ball.hpp"
 #include "Paddles.hpp"
 //#include "Score.hpp"
 #include "Networking.hpp"
-#include "UI/UI.hpp"
+//#include "UI/UI.hpp"
 
 GlobalWindowData global_window_data = {500, 500, NULL};
 
@@ -28,7 +28,7 @@ void BtnHandler() {
 
 int main(int argc, char* argv[]) {
     TTF_Init();
-    //Text::LoadFont();
+    Text::LoadFont();
 
     Window window;
     Ball ball;
@@ -37,21 +37,20 @@ int main(int argc, char* argv[]) {
 
     // UI Initialization
 
-    UI ui = UI(global_window_data.rdr);
+    // UI ui = UI(global_window_data.rdr);
 
-    SDL_Color white = {255, 255, 255};
-    SDL_Color black = {0, 0, 0};
+    // SDL_Color white = {255, 255, 255};
+    // SDL_Color black = {0, 0, 0};
 
-    Font fnt1("assets/font.ttf", 60, & white);
-    Font fnt2("assets/font.ttf", 30, & black);
+    // Font fnt1("assets/font.ttf", 60, & white);
+    // Font fnt2("assets/font.ttf", 30, & black);
 
     // Button btn("btn", true, 0, 80, 80, 80, 80, false, white, global_window_data.rdr, &BtnHandler, "asd", & fnt1);
-    Text title("txt", true, 0, 15, 15, 280, 160, false, white, global_window_data.rdr, "pong", & fnt1);
+    // Text title("txt", true, 0, 15, 15, 280, 160, false, white, global_window_data.rdr, "pong", & fnt1);
 
     // ui.AddUIElement<Button>(&btn);
-    ui.AddUIElement<Text>(& title);
-
-    // Menu menu;
+    //ui.AddUIElement<Text>(& title);
+    Menu menu;
 
     bool connected_to_server = false;
     Networking net(&paddles, &ball);
@@ -108,8 +107,7 @@ int main(int argc, char* argv[]) {
         if (tru)
             paddles.Draw();
         //score.Draw();
-        // menu.Draw();
-        ui.Draw();
+        menu.Draw();
 
         SDL_RenderPresent(global_window_data.rdr);
     }

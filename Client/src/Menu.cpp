@@ -1,43 +1,48 @@
 #include "Menu.hpp"
 
-Menu::Menu(SDL_Renderer* _renderer) {
-    renderer = _renderer;
-
-    //Text text("assets/font.ttf", 35); // TODO Move to main.cpp (or InitializeAssets()) and name pixel_font or main_font or menu_font
-
-    SDL_Texture* title_texture = Text::CreateTexture(renderer, "Net Pong");
-    //SDL_Texture* title_texture = text.CreateTexture(renderer, "Net Pong");
-    SDL_Rect title_rect;
-    SDL_QueryTexture(title_texture, NULL, NULL, & title_rect.w, & title_rect.h);
-    title_rect.x = title_rect.y = 15;
-
-    text_textures.push_back(title_texture);
-    text_rects.push_back(title_rect);
-
-
-
-    SDL_Texture* connect_texture = Text::CreateTexture(renderer, "Connect");
-    //SDL_Texture* connect_texture = text.CreateTexture(renderer, "Connect");
-    SDL_Rect connect_rect;
-    SDL_QueryTexture(connect_texture, NULL, NULL, & connect_rect.w, & connect_rect.h);
-    connect_rect.x = 15;
-    connect_rect.y = 155;
-
-    text_textures.push_back(connect_texture);
-    text_rects.push_back(connect_rect);
-    button_indexes.push_back(text_textures.size() - 1);
+Menu::Menu() {
+    AddItem(15, 15, 300, 300, "hello", NULL);
 }
 
 void Menu::Draw() {
-    for (unsigned int i = 0; i < text_textures.size(); i++) {
-        SDL_RenderCopy(renderer, text_textures[i], NULL, & text_rects[i]);
+    SDL_Rect iter_pos;
+    for (unsigned int i = 0; i < items.xs.size(); i++) {
+        iter_pos = {items.xs[i], items.ys[i], items.ws[i], items.hs[i]};
+        SDL_RenderCopy(global_window_data.rdr, items.textures[i], NULL, & iter_pos);
     }
 }
 
 void Menu::MousePressed(int x, int y) {
-    for (int i : button_indexes) {
-        if (x > text_rects[i].x && x < text_rects[i].x + text_rects[i].w && y > text_rects[i].y && y < text_rects[i].y + text_rects[i].h) {
+    for (unsigned int i = 0; i < items.functions.size(); i++) {
+        if (items.functions[i] != NULL && x > items.xs[i] && x < items.xs[i] + items.ws[i] && y > items.ys[i] && y < items.ys[i] + items.hs[i]) {
             // do some shit
         }
     }
+}
+
+void Menu::DestroyTextures() {
+    for (unsigned int i = 0; i < items.textures.size(); i++) {
+        SDL_DestroyTexture(items.textures[i]);
+    }
+}
+
+inline void Menu::AddItem(int x, int y, int w, int h, std::string text, void(*function)()) {
+    items.xs.push_back(x);
+    items.ys.push_back(y);
+    items.ws.push_back(w);
+    items.hs.push_back(h);
+
+    SDL_Texture* main_texture = SDL_CreateTexture(global_window_data.rdr, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_Texture* text_texture = Text::CreateTexture(global_window_data.rdr, text);
+
+    int text_w, text_h;
+    SDL_QueryTexture(text_texture, NULL, NULL, & text_w, & text_h);
+    SDL_Rect text_rect = {(w - text_w) / 2, (h - text_h) / 2, text_w, text_h};
+    SDL_Rect outline_rect = {0, 0, w, h};
+    SDL_SetRenderTarget(global_window_data.rdr, main_texture);
+    SDL_RenderCopy(global_window_data.rdr, text_texture, NULL, & text_rect);
+    SDL_RenderDrawRect(global_window_data.rdr, & outline_rect);
+    SDL_SetRenderTarget(global_window_data.rdr, NULL);
+
+    items.textures.push_back(main_texture);
 }
