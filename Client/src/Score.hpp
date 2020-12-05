@@ -6,14 +6,15 @@
 #include "GlobalWindowData.hpp"
 #include "Text.hpp"
 
-class Score {
-public:
-    Score();
+struct Score {
+
+    Score(Text* _text);
     void Draw();
     void p1();
     void p2();
     void DestroyTextures();
-private:
+
+    Text* text;
 
     SDL_Texture* texture_1;
     SDL_Texture* texture_2;

@@ -5,7 +5,9 @@
 struct GlobalWindowData {
     int w;
     int h;
+    int mx;
+    int my;
     SDL_Renderer* rdr;
 };
 
-extern GlobalWindowData global_window_data;
+extern GlobalWindowData g_data;

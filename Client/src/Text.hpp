@@ -5,12 +5,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "pch.h"
+
 struct Text {
-public:
-    static void LoadFont();
-    static void DestroyFont();
-    static SDL_Texture* CreateTexture(SDL_Renderer* renderer, std::string text);
-private:
-    static TTF_Font* main_font;
-    static constexpr SDL_Color white_color = {255, 255 ,255};
+    void SetFontSize(int font_size);
+    SDL_Texture* CreateTexture(SDL_Renderer* renderer, std::string text, int font_size, bool underlined = false);
+
+    TTF_Font* font;
 };

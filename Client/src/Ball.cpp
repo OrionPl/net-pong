@@ -13,7 +13,7 @@ Ball::Ball() {
 }
 
 void Ball::Draw() {
-    SDL_RenderFillRect(global_window_data.rdr, &m_rect);
+    SDL_RenderFillRect(g_data.rdr, &m_rect);
 }
 
 void Ball::SetPosition(float x, float y) {
