@@ -5,3 +5,4 @@ Client/.vscode/
 /.vscode
 *.sh
 *.bat
+Client/command_olap.bat

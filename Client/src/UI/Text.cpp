@@ -21,10 +21,18 @@ Text::Text(std::string _name, bool _active,  int _uiAnchor, int _xPos, int _yPos
 void Text::Draw() {
     if (active) {
         SDL_Rect rect;
-            rect.x = xPos;
-            rect.y = yPos;
-            rect.w = xSize;
-            rect.h = ySize;
+        rect.x = xPos;
+        rect.y = yPos;
+        rect.w = xSize;
+        rect.h = ySize;
+
+        SDL_Rect text_rect;
+        int tw, th;
+        SDL_QueryTexture(textTexture, NULL, NULL, &tw, &th);
+        text_rect.x = xPos + (xSize / 2) - (tw / 2);
+        text_rect.y = yPos + (ySize / 2) - (th / 2);
+        text_rect.w = tw;
+        text_rect.h = th;
 
         switch(backgroundType) {
             case UI_BACKGROUND_TEXTURED:
@@ -39,7 +47,7 @@ void Text::Draw() {
         }
 
         if (textTexture)
-            SDL_RenderCopy(renderer, textTexture, NULL, &rect);
+            SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
     }
 }
 
