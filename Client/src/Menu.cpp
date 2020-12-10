@@ -4,12 +4,19 @@ Menu::Menu(Text* _text) {
     text = _text;
 
     AddText("Net Pong", 35, 15, 15);
-    AddText("Connect", 35, 15, 155);
+    AddText("Connect", 35, 15, 155, true);
 }
 
 void Menu::Draw() {
     for (unsigned int i = 0; i < items.size(); i++) {
-        SDL_RenderCopy(g_data.rdr, items[i].hover ? items[i].texture2 : items[i].texture1, NULL, & items[i].rect);
+        SDL_RenderCopy(g_data.rdr, items[i].texture, NULL, & items[i].rect);
+
+        if (items[i].hover && items[i].can_underline) {
+           SDL_Rect rect = items[i].rect;
+           rect.y += rect.h * 0.8;
+           rect.h = 5;
+           SDL_RenderFillRect(g_data.rdr, & rect);
+        }
     }
 }
 

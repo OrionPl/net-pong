@@ -10,10 +10,10 @@ Score::Score(Text* _text) {
     SDL_QueryTexture(texture_1, NULL, NULL, &score_1_rect.w, &score_1_rect.h);
     SDL_QueryTexture(texture_1, NULL, NULL, &score_2_rect.w, &score_2_rect.h);
 
-    score_1_rect.x = g_data.w / 4 - score_1_rect.w / 2;
-    score_1_rect.y = g_data.h / 4 - score_1_rect.h / 2;
-    score_2_rect.x = g_data.w / 4 * 3 - score_2_rect.w / 2;
-    score_2_rect.y = g_data.h / 4 - score_2_rect.h / 2;
+    score_1_rect.x = g_data.ww / 4 - score_1_rect.w / 2;
+    score_1_rect.y = g_data.wh / 4 - score_1_rect.h / 2;
+    score_2_rect.x = g_data.ww / 4 * 3 - score_2_rect.w / 2;
+    score_2_rect.y = g_data.wh / 4 - score_2_rect.h / 2;
 }
 
 void Score::Draw() {

@@ -5,7 +5,7 @@ Paddles::Paddles() {
     m_rect.h = 50;
     m_yv = 500;
     m_paddle1.x = 10;
-    m_paddle2.x = g_data.w - 10 - m_rect.w;
+    m_paddle2.x = g_data.ww - 10 - m_rect.w;
     m_paddle1.y = m_paddle2.y = 50;
 }
 

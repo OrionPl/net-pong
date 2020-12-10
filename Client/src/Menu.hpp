@@ -1,19 +1,20 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include <SDL2/SDL.h>
 
 #include "Text.hpp"
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 
 struct Item {
-    SDL_Texture* texture1; // normal texture
-    SDL_Texture* texture2; // texture with underline
+    SDL_Texture* texture; // normal texture
     SDL_Rect     rect;
     int font_size;
-    char* str;
+    std::string str;
     bool hover;
+    bool can_underline;
 };
 
 struct Menu {
@@ -22,15 +23,17 @@ struct Menu {
     void Update();
     void MousePressed(int x, int y);
 
-    void inline AddText(char* str, int font_size, int x, int y) {
-        Item item;
-        item.texture1 = text->CreateTexture(g_data.rdr, str, font_size);
-        item.texture2 = text->CreateTexture(g_data.rdr, str, font_size, true);
-        SDL_QueryTexture(item.texture1, NULL, NULL, & item.rect.w, & item.rect.h);
-        item.font_size = font_size;
-        item.str = str;
-        item.rect.x = x; item.rect.y = y;
-        item.hover = false;
+    void inline AddText(std::string str, int font_size, int x, int y, bool can_underline = false) {
+
+        Item item = {
+            text->CreateTexture(g_data.rdr, str, font_size),
+            {x, y, -1, -1},
+            font_size,
+            str,
+            false,
+            can_underline
+        };
+        SDL_QueryTexture(item.texture, NULL, NULL, & item.rect.w, & item.rect.h);
 
         items.push_back(item);
     }

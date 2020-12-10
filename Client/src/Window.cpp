@@ -1,7 +1,7 @@
 #include "Window.hpp"
 
 Window::Window() {
-    window = SDL_CreateWindow("pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, g_data.w, g_data.h, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, g_data.ww, g_data.wh, SDL_WINDOW_SHOWN);
     SDL_UpdateWindowSurface(window);
     g_data.rdr = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
 

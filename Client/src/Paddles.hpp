@@ -5,7 +5,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 #include "Ball.hpp"
 
 struct Paddle {

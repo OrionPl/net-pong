@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 
 class Window {
 public:

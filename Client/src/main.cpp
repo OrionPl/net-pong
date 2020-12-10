@@ -8,7 +8,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "Window.hpp"
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 #include "Text.hpp"
 #include "Menu.hpp"
 #include "Ball.hpp"
@@ -16,7 +16,7 @@
 //#include "Score.hpp"
 #include "Networking.hpp"
 
-GlobalWindowData g_data = {500, 500, NULL, NULL, NULL};
+GlobalData g_data;
 
 // void ConnectToServer(Networking* net) {
 //     if (net.Connect("127.0.0.1", 55555, "orion1"))
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        if (in_game) {
+        if (g_data.cur_state == GAME) {
 
             // Directions:
             // -1 : up
@@ -86,8 +86,11 @@ int main(int argc, char* argv[]) {
         window.Clear();
 
         menu.Draw();
-        ball.Draw();
-        paddles.Draw();
+
+        if (g_data.cur_state == GAME) {
+            ball.Draw();
+            paddles.Draw();
+        }
 
         SDL_RenderPresent(g_data.rdr);
     }

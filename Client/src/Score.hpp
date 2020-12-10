@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 #include "Text.hpp"
 
 struct Score {

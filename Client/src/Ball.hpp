@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 //#include "Score.hpp"
 
-#include "GlobalWindowData.hpp"
+#include "GlobalData.hpp"
 
 class Ball {
 public:
