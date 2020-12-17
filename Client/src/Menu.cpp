@@ -1,10 +1,14 @@
 #include "Menu.hpp"
 
+void Test1() {
+    SDL_Log("test1");
+}
+
 Menu::Menu(Text* _text) {
     text = _text;
 
     AddText("Net Pong", 35, 15, 15);
-    AddText("Connect", 35, 15, 155, true);
+    AddText("Connect", 35, 15, 155, true, &Test1);
 }
 
 void Menu::Draw() {
@@ -32,4 +36,9 @@ void Menu::MousePressed(int x, int y) {
     //         // do some shit
     //     }
     // }
+
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].hover)
+            items[i].eventHandler();
+    }
 }

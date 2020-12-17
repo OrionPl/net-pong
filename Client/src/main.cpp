@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
                     if (event.key.keysym.sym == SDLK_ESCAPE) quit = true;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
+                menu.MousePressed(g_data.mx, g_data.my);
                     break;
                 default: break;
             }

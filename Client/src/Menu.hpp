@@ -15,6 +15,7 @@ struct Item {
     std::string str;
     bool hover;
     bool can_underline;
+    void (* eventHandler)();
 };
 
 struct Menu {
@@ -23,7 +24,7 @@ struct Menu {
     void Update();
     void MousePressed(int x, int y);
 
-    void inline AddText(std::string str, int font_size, int x, int y, bool can_underline = false) {
+     void inline AddText(std::string str, int font_size, int x, int y, bool can_underline = false, void (* eventHandler)()=nullptr) {
 
         Item item = {
             text->CreateTexture(g_data.rdr, str, font_size),
@@ -31,7 +32,8 @@ struct Menu {
             font_size,
             str,
             false,
-            can_underline
+            can_underline,
+            eventHandler
         };
         SDL_QueryTexture(item.texture, NULL, NULL, & item.rect.w, & item.rect.h);
 
