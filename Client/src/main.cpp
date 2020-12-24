@@ -57,6 +57,8 @@ int main(int argc, char* argv[]) {
                 case SDL_MOUSEBUTTONDOWN:
                 menu.MousePressed(g_data.mx, g_data.my);
                     break;
+                case SDL_TEXTINPUT:
+                    menu.selected_text_box->ChangeText(event.text.text);
                 default: break;
             }
         }

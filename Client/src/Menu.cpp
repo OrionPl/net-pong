@@ -9,6 +9,7 @@ Menu::Menu(Text* _text) {
 
     AddText("Net Pong", 35, 15, 15);
     AddText("Connect", 35, 15, 155, true, &Test1);
+    AddTextBox("textbox", 35, 60, 60, 120, new std::string);
 }
 
 void Menu::Draw() {
@@ -28,6 +29,10 @@ void Menu::Update() {
     for (int i = 0; i < items.size(); i ++) {
         items[i].hover = g_data.mx > items[i].rect.x && g_data.mx < items[i].rect.x + items[i].rect.w && g_data.my > items[i].rect.y && g_data.my < items[i].rect.y + items[i].rect.h;
     }
+
+    for (int i = 0; i < text_boxes.size(); i ++) {
+        text_boxes[i].hover = g_data.mx > text_boxes[i].rect.x && g_data.mx < text_boxes[i].rect.x + text_boxes[i].rect.w && g_data.my > text_boxes[i].rect.y && g_data.my < text_boxes[i].rect.y + text_boxes[i].rect.h;
+    }
 }
 
 void Menu::MousePressed(int x, int y) {
@@ -40,5 +45,24 @@ void Menu::MousePressed(int x, int y) {
     for (int i = 0; i < items.size(); i++) {
         if (items[i].hover)
             items[i].eventHandler();
+    }
+
+    bool selected = false;
+
+    for (int i = 0; i < text_boxes.size(); i++) {
+        if (text_boxes[i].hover) {
+            selected_text_box->selected = false;
+            selected_text_box = &text_boxes[i];
+            selected_text_box->selected = true;
+            selected = true;
+
+            SDL_StopTextInput();
+            SDL_StartTextInput();
+        }
+    }
+
+    if (!selected) {
+        selected_text_box = nullptr;
+        SDL_StopTextInput();
     }
 }
