@@ -38,7 +38,12 @@ struct TextBox {
 
     void ChangeText(std::string text) {
         *currText = text;
-        texture = txt->CreateTexture(g_data.rdr, text, font_size);
+
+        if (text != "")
+            texture = txt->CreateTexture(g_data.rdr, text, font_size);
+        else
+            texture = txt->CreateTexture(g_data.rdr, *currText, font_size);
+            
         SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 
         //then if selected draw a line to where the user is typing|
