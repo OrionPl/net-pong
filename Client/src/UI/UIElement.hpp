@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef UIELEMENT_H_
-#define UIELEMENT_H_
-
 #include <SDL2/SDL.h>
 #include <string>
 
@@ -71,4 +68,3 @@ protected:
     int anchoredX, anchoredY;
     int uiAnchor;
 };
-#endif

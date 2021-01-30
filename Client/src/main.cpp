@@ -16,6 +16,7 @@
 //#include "Score.hpp"
 #include "Networking.hpp"
 
+
 GlobalData g_data;
 
 // void ConnectToServer(Networking* net) {
@@ -23,12 +24,12 @@ GlobalData g_data;
 //         in_game = true;
 // }
 
-
-int main(int argc, char* argv[]) {
+int main(int argc, char** args) {
     TTF_Init();
 
     Window window;
     Text text;
+
 
     Menu menu(& text);
 

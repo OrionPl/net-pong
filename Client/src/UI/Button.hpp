@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef BUTTON_H_
-#define BUTTON_H_
-
 #include <SDL2/SDL.h>
 
 #include "UIElement.hpp"
@@ -30,4 +27,3 @@ private:
     void (* eventHandler)();
     SDL_Texture* textTexture;
 };
-#endif

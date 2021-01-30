@@ -7,15 +7,17 @@ void Test1() {
 Menu::Menu(Text* _text) {
     text = _text;
 
-    AddText("Net Pong", 35, 15, 15);
     AddText("Connect", 35, 15, 155, true, &Test1);
+    AddText("Net Pong", 35, 15, 15);
     AddTextBox("textbox", 35, 60, 60, 120, new std::string);
+
 }
 
 void Menu::Draw() {
     for (unsigned int i = 0; i < items.size(); i++) {
         SDL_RenderCopy(g_data.rdr, items[i].texture, NULL, & items[i].rect);
 
+        // underline buttons on hover
         if (items[i].hover && items[i].can_underline) {
            SDL_Rect rect = items[i].rect;
            rect.y += rect.h * 0.8;
@@ -43,8 +45,7 @@ void Menu::MousePressed(int x, int y) {
     // }
 
     for (int i = 0; i < items.size(); i++) {
-        if (items[i].hover)
-            items[i].eventHandler();
+        if (items[i].hover && items[i].event_handler) items[i].event_handler();
     }
 
     bool selected = false;

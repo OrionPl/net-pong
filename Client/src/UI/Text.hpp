@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TEXT_H_
-#define TEXT_H_
-
 #include <SDL2/SDL.h>
 
 #include "UIElement.hpp"
@@ -25,4 +22,3 @@ private:
     SDL_Texture* textTexture;
     Font* font;
 };
-#endif

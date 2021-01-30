@@ -1,13 +1,10 @@
 #pragma once
 
-#ifndef NET_H_
-#define NET_H_
-
 //#include <windows.h>
 #include <thread>
 #include <sstream>
-#include <WS2tcpip.h>
 #include <SDL2/SDL.h>
+#include <WS2tcpip.h>
 
 #pragma comment (lib, "Ws2_32.lib")
 
@@ -44,4 +41,3 @@ private:
 	Paddles* paddles;
 	Ball* ball;
 };
-#endif

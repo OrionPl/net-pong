@@ -2,9 +2,6 @@
 
 class UI; // DO NOT REMOVE (Breaks all UI elements due to UI not being defined)
 
-#ifndef UI_H_
-#define UI_H_
-
 #include <vector>
 #include <SDL2/SDL.h>
 #include "Button.hpp"
@@ -34,4 +31,3 @@ private:
     std::vector<Button*> buttons;
     std::vector<Text*> texts;
 };
-#endif

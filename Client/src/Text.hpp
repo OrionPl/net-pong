@@ -11,5 +11,5 @@ struct Text {
     void SetFontSize(int font_size);
     SDL_Texture* CreateTexture(SDL_Renderer* renderer, std::string text, int font_size, bool underlined = false);
 
-    TTF_Font* font;
+    TTF_Font* font = NULL;
 };

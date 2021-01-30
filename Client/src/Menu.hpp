@@ -15,7 +15,7 @@ struct Item {
     std::string str;
     bool hover;
     bool can_underline;
-    void (* eventHandler)();
+    void (* event_handler)(void);
 };
 
 struct TextBox {
@@ -43,7 +43,7 @@ struct TextBox {
             texture = txt->CreateTexture(g_data.rdr, text, font_size);
         else
             texture = txt->CreateTexture(g_data.rdr, *currText, font_size);
-            
+
         SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 
         //then if selected draw a line to where the user is typing|
@@ -61,8 +61,7 @@ struct Menu {
     void Update();
     void MousePressed(int x, int y);
 
-     void inline AddText(std::string str, int font_size, int x, int y, bool can_underline = false, void (* eventHandler)()=nullptr) {
-
+     void inline AddText(std::string str, int font_size, int x, int y, bool can_underline = false, void (* eventHandler)(void)=NULL) {
         Item item = {
             text->CreateTexture(g_data.rdr, str, font_size),
             {x, y, -1, -1},
@@ -74,7 +73,7 @@ struct Menu {
         };
         SDL_QueryTexture(item.texture, NULL, NULL, & item.rect.w, & item.rect.h);
 
-        items.push_back(item);
+       items.push_back(item);
     }
 
     void inline AddTextBox(std::string defaultText, int font_size, int x, int y, int w, std::string* txt) {

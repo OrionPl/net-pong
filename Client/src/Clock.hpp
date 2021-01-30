@@ -1,3 +1,5 @@
+#pragma once
+
 struct Clock
 {
     float last_tick_time = 0;
