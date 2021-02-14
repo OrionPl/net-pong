@@ -1,8 +1,10 @@
 #define NOMINMAX
 
 #include <windows.h>
+#include <cstdint>
 
 #include "Networking.hpp"
+#include "NMessages.hpp"
 
 Networking::Networking(Paddles* _paddles, Ball* _ball) {
 	paddles = _paddles;
@@ -70,12 +72,22 @@ void Networking::Send(std::string message) {
 
 void Networking::Receive() {
 	while (true) {
-		char buffer[4096];
+		uint64_t msgSize;
+		char sizeBuf[sizeof(uint64_t)];
 
-		int bytesReceived = recv(Socket, buffer, 4096, 0);
+		int sizeSize = recv(Socket, sizeBuf, sizeof(uint64_t), 0);
+
+		msgSize = (uint64_t)sizeBuf;
+
+		char buffer[msgSize];
+
+		int bytesReceived = recv(Socket, buffer, msgSize, 0);
 
 		if (bytesReceived > 0) {
-			std::string received = std::string(buffer, 0, bytesReceived);
+			NetworkMessage received;
+			received.SetData((void*)buffer);
+			received.SetDataSize(msgSize);
+
 			HandleQuery(received);
 		}
 		else {
@@ -85,45 +97,50 @@ void Networking::Receive() {
 	}
 }
 
-void Networking::HandleQuery(std::string msg) {
-	Helper help;
+void Networking::HandleQuery(NetworkMessage msg) {
 
-	if (msg[0] == '$') { // game logic prefix is $
-		msg.erase(0, 1); // remove the $ prefix when viewing data
-
-		// splitting data by commas
-		std::vector<int> msg_data;
-		std::string delimiter = ",";
-		std::istringstream ss(msg);
-		std::string token;
-		std::string::iterator it;
-		while(std::getline(ss, token, *(it = delimiter.begin()))) {
-			while(*(++it)) ss.get();
-			msg_data.push_back(std::stoi(token));
+	if (sizeof(msg) < sizeof(uint8_t)) {
+		PRINT "Got garbage network message from server.";
+	}
+	
+	MessageType msgType = (MessageType)(*(uint8_t*)msg.GetData());
+	
+	switch (msgType) {
+		case mt_basic:
+		break;
+		
+		case mt_movement:
+		if (msg.GetDataSize() == sizeof(Msg_Movement)) {
+			Msg_Movement* _msg = (Msg_Movement*)msg.GetData();
+			
+			paddles->SetPaddles(_msg->GetPaddle1_x(), _msg->GetPaddle1_y(), _msg->GetPaddle2_x(), _msg->GetPaddle2_y());
+			ball->SetPosition(_msg->GetBall_x(), _msg->GetBall_y());
 		}
-		paddles->SetPaddles(msg_data[0], msg_data[1], msg_data[2], msg_data[3]);
-		ball->SetPosition(msg_data[4], msg_data[5]);
-	}
-	else if (help.StringStartsWith(msg, "msgfrom")) {
-		msg = msg.substr(0, 8);
-		std::string name = help.GetStringUntil(msg, "###");
-		std::string mes = msg.substr(0, name.length() + 3);
+		break;
 
-		//if (name != nick)
-		PRINT name + "> " + mes + "\n";
-	}
-	else if (help.StringStartsWith(msg, "con")) {
-		msg = msg.substr(0, 4);
+		case mt_chatMsg:
+		if (msg.GetDataSize() == sizeof(Msg_ChatMsg)) {
+			Msg_ChatMsg* _msg = (Msg_ChatMsg*)msg.GetData();
+			
+			PRINT "> " << _msg->GetChatMsg() << "\n";
+		}
+		break;
 
-		PRINT msg + " connected!\n";
-	}
-	else if (help.StringStartsWith(msg, "dcon")) {
-		msg = msg.substr(0, 5);
-
-		PRINT msg << " disconnected!\n";
-	}
-	else {
-		PRINT "SERVER> " + msg + "\n";
+		case mt_connect:
+		if (msg.GetDataSize() == sizeof(Msg_Connect)) {
+			Msg_Connect* _msg = (Msg_Connect*)msg.GetData();
+			
+			PRINT _msg->GetName() << " connected!\n";
+		}
+		break;
+		
+		case mt_disconnect:
+		if (msg.GetDataSize() == sizeof(Msg_Disconnect)) {
+			Msg_Disconnect* _msg = (Msg_Disconnect*)msg.GetData();
+			
+			PRINT _msg->GetName() << " disconnected!\n";
+		}
+		break;
 	}
 }
 

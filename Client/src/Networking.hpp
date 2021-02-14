@@ -10,6 +10,7 @@
 
 #include "Utilities/Helper.hpp"
 #include "Utilities/Print.hpp"
+#include "NMessages.hpp"
 
 #include "Paddles.hpp"
 #include "Ball.hpp"
@@ -27,7 +28,7 @@ public:
 private:
 	void InitializeWinsock();
 	void Receive();
-	void HandleQuery(std::string msg);
+	void HandleQuery(NetworkMessage msg);
 
 	std::thread receive_thread;
 
