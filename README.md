@@ -1,8 +1,5 @@
 <h1>Net Pong</h1>
-Net Pong is a clone of pong with online multiplayer. Feel free to use the code we have written and we encourage you to play this with a friend.
-<br>
-<br>
-If you find any bugs please make sure to post it on the issues tab.
+Online pong with custom networking in C++.
 <br>
 <br>
 <br>
